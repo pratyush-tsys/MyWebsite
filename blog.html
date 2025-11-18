@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blogs — Pratyush Saxena</title>
+<link rel="stylesheet" href="templatemo-glossy-touch.css">
+<style>
+  .container{max-width:1100px;margin:0 auto;padding:28px;}
+  .post{background:rgba(255,255,255,0.22);backdrop-filter:blur(18px);padding:26px;border-radius:14px;
+        margin-bottom:26px;box-shadow:0 8px 22px rgba(0,0,0,0.22);}
+  .post h3{margin:0 0 10px 0;color:white;font-size:22px;}
+  time{color:#e5e7eb;font-size:13px;}
+  p, li{color:white;line-height:1.6;}
+  h4{color:#dbeafe;margin-top:18px;}
+  .tags{color:#cbd5e1;font-size:13px;margin-top:16px;}
+  header h1, header p{color:white;}
+</style>
+</head>
+
+<body>
+
+<div class="bg-shapes">
+  <div class="shape"></div><div class="shape"></div><div class="shape"></div>
+  <div class="shape"></div><div class="shape"></div><div class="shape"></div>
+</div>
+
+<header class="glass">
+  <div class="container" style="display:flex;justify-content:space-between;align-items:center;">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="font-size:28px;color:white;">💳</div>
+      <div>
+        <h1 style="margin:0;font-size:22px;">Blogs</h1>
+        <p style="margin:0;font-size:13px;">By Pratyush Saxena</p>
+      </div>
+    </div>
+    <nav>
+      <a href="upgraded-index-final.html" style="color:#bfdbfe;text-decoration:none;font-size:14px;">← Back to Home</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+<!-- POST 1 FULL -->
+<article class="post">
+<h3>🔐 The Day DPA and CAP Taught Me What “Real” Card Security Looks Like</h3>
+<time>18 November 2025, 08:00 PM IST</time>
+
+<p>I still remember the first time I worked with Dynamic Passcode Authentication (DPA) and the Chip Authentication Program (CAP).</p>
+<p>Two methods. One mission: protect the user and protect the transaction.</p>
+<p>What struck me immediately was how elegantly both approaches use the card and issuer keys to verify that the person holding the card is the real customer.</p>
+
+<h4>Here’s the journey in simple terms</h4>
+<p>DPA generates a dynamic code during online authentication.<br>
+You enter a challenge → your card or secure device computes a response using issuer keys → the issuer checks the math.<br>
+If everything aligns, authentication succeeds.<br>
+It’s the same principle behind values like ARQC, the Application Request Cryptogram, used to prove a transaction’s integrity.</p>
+
+<h4>CAP</h4>
+<p>CAP supports card-present and ATM flows.<br>
+Your card and the reader generate a one-time code based on your PIN, card data, and a challenge.<br>
+The issuer validates it inside the Hardware Security Module (HSM), similar to how PIN block verification works, following strict rules.</p>
+
+<h4>What fascinated me</h4>
+<ul>
+<li>Blocks replay attempts</li>
+<li>Slows brute-force trials</li>
+<li>Reduces fraud on cloned cards</li>
+<li>Binds each authentication to a single session</li>
+<li>Maintains low user friction</li>
+</ul>
+
+<h4>Core engine</h4>
+<ul>
+<li>Secret keys live on the card</li>
+<li>The reader or device provides a challenge</li>
+<li>The card computes a response</li>
+<li>The issuer verifies inside the HSM</li>
+<li>The response expires after one use</li>
+</ul>
+
+<p>The outcome? Strong security, predictable performance, and trust engineered at every step.</p>
+
+<p class="tags">#payments #fintech #authentication #DPA #CAP #HSM #riskmanagement</p>
+</article>
+
+
+<!-- POST 2 FULL -->
+<article class="post">
+<h3>💳 Static PIN vs Dynamic PIN, The Shift That Changes Card Security</h3>
+<time>17 November 2025, 08:00 PM IST</time>
+
+<p>When I started working with HSM driven PIN systems, I believed PIN security was straightforward.<br>
+You store a PIN, you validate it, and you approve the transaction.</p>
+
+<p>Then I compared static PIN and dynamic PIN models. That comparison changed how I viewed issuer security.</p>
+
+<p><strong>Static PIN</strong> stays fixed.<br>
+One captured PIN can expose the full card. Fraudsters rely on this consistency.</p>
+
+<p><strong>Dynamic PIN</strong> changes the pattern.<br>
+Every PIN is new. It exists for one transaction. It expires the moment the transaction ends.</p>
+
+<h4>Flow</h4>
+<ul>
+<li>You start a transaction</li>
+<li>Your app or device authenticates you</li>
+<li>The issuer requests a fresh PIN from the HSM</li>
+<li>The HSM derives the PIN using issuer keys and card data</li>
+<li>The PIN binds to that single transaction</li>
+<li>The terminal or app validates it</li>
+<li>The PIN dies instantly after use</li>
+</ul>
+
+<p>Replay attacks fail. Cloned PAN data loses value. Captured PINs cannot be reused.</p>
+
+<h4>Standard components</h4>
+<ul>
+<li>PAN or token</li>
+<li>Session keys</li>
+<li>Diversification keys</li>
+<li>Time or counters</li>
+<li>HSM based PIN generation and validation</li>
+</ul>
+
+<p><strong>Strong protection depends on how you generate and manage secrets.</strong></p>
+
+<p class="tags">#HSM #PIN #Payments #CyberSecurity #Fintech</p>
+</article>
+
+
+<!-- POST 3 FULL -->
+<article class="post">
+<h3>💳 ECB vs CBC — The Hidden Story Behind Every Encrypted Transaction</h3>
+<time>15 November 2025, 08:00 PM IST</time>
+
+<p>When I first started working with HSMs, I used to think encryption was simple.<br>
+You take a key, encrypt the data, and you’re done.</p>
+
+<p>But the day I compared ECB and CBC, I realized how much impact a mode can have on the security of your entire payment system.</p>
+
+<h4>ECB</h4>
+<p>In ECB mode, every block is encrypted independently. Fast, simple, deterministic.<br>
+Perfect when you need to verify something exact — like generating a CVV or PIN block.<br>
+But repeating input creates repeating ciphertext.</p>
+
+<h4>CBC</h4>
+<p>CBC chains each block with the previous one using an IV.<br>
+Even if your data repeats, ciphertext never does.<br>
+More secure, less predictable, slightly slower.</p>
+
+<p>In payments, both have roles.<br>
+ECB for short, precise cryptograms.<br>
+CBC for sessions or unpredictable flows.</p>
+
+<p class="tags">#Encryption #ECB #CBC #HSM #Payments</p>
+</article>
+
+
+<!-- POST 4 FULL -->
+<article class="post">
+<h3>💳 The Invisible Math Protecting Every Tap — ECC in Tokenization</h3>
+<time>14 November 2025, 08:00 PM IST</time>
+
+<p>When I started working in payments over a decade ago, encryption felt like magic.<br>
+Algorithms like RSA ruled everything.<br>
+As the world went mobile, RSA became too heavy.</p>
+
+<p>Then came Elliptic Curve Cryptography (ECC). It rewrote how modern transactions are secured.</p>
+
+<p>ECC does the same job as RSA, but with smaller keys, faster performance, and stronger resistance per bit.<br>
+RSA 3072 bit ≈ ECC 256 bit.</p>
+
+<p>I saw this shift firsthand in tokenization systems.<br>
+ECC enables secure key exchange between issuers, acquirers, and networks without exposing data.</p>
+
+<p>When you tap your phone, a token replaces your PAN.<br>
+ECC derived session keys encrypt that token.<br>
+Your card data stays inside its vault.</p>
+
+<p>The industry is moving from bulky cryptosystems to efficient curve based security.</p>
+
+<p class="tags">#ECC #Tokenization #HSM #Fintech</p>
+</article>
+
+
+<!-- POST 5 FULL -->
+<article class="post">
+<h3>💳 The Hidden Story Behind CVV, CVV2, CVV4, and CVV6 — What Really Protects Your Card?</h3>
+<time>14 November 2025, 08:00 PM IST</time>
+
+<p>When I entered the payments industry, I thought those three little digits on the back of a card were simple.</p>
+
+<p>I was wrong.</p>
+
+<p>Those digits represent a global security framework that evolved with every swipe, tap, and click.</p>
+
+<h4>CVV / iCVV</h4>
+<p>Lives inside chip and track.<br>
+Never printed.<br>
+Validates card authenticity in POS and ATM.</p>
+
+<h4>CVV2</h4>
+<p>Printed on the back for online transactions.<br>
+Issuer recalculates on every use.</p>
+
+<h4>CVV4</h4>
+<p>AMEX 4 digit CID.</p>
+
+<h4>CVV6 / dCVV</h4>
+<p>Dynamic. Generated on every tap inside the secure element.<br>
+Useless after seconds.</p>
+
+<p>Every CVV upgrade reflects how fraud evolves.</p>
+
+<p class="tags">#CVV #CardSecurity #Payments #Fintech</p>
+</article>
+
+
+</div>
+</main>
+
+</body>
+</html>
