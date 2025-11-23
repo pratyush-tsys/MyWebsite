@@ -1,0 +1,907 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>ISO8583 Converter & TLV Parser</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- Theme CSS link placeholder (optional) -->
+<link rel="stylesheet" href="templatemo-glossy-touch.css">
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background:#0f172a;
+    margin:0;
+    padding:0;
+    color:white;
+  }
+  /* Background Shapes */
+  .bg-shapes { position:fixed; inset:0; z-index:-1; overflow:hidden; }
+  .bg-shapes .shape {
+    position:absolute;
+    width:360px;
+    height:360px;
+    border-radius:50%;
+    filter:blur(60px);
+    transform: translate3d(0,0,0);
+    background: linear-gradient(135deg, rgba(99,102,241,0.18), rgba(59,130,246,0.12));
+    opacity:0.9;
+  }
+  .bg-shapes .shape:nth-child(1){ left:-120px; top:-60px; }
+  .bg-shapes .shape:nth-child(2){ right:-140px; top:-40px; width:420px; height:420px; }
+  .bg-shapes .shape:nth-child(3){ left:20%; bottom:-160px; width:520px; height:520px; background:linear-gradient(135deg, rgba(16,185,129,0.10), rgba(99,102,241,0.06)); }
+  .bg-shapes .shape:nth-child(4){ left:40%; top:10%; width:260px; height:260px; background:linear-gradient(135deg, rgba(99,102,241,0.12), rgba(59,130,246,0.06)); }
+  .bg-shapes .shape:nth-child(5){ right:10%; bottom:-120px; width:320px; height:320px; background:linear-gradient(135deg, rgba(236,72,153,0.06), rgba(59,130,246,0.06)); }
+  .bg-shapes .shape:nth-child(6){ left:-80px; bottom:10%; width:220px; height:220px; background:linear-gradient(135deg, rgba(99,102,241,0.08), rgba(16,185,129,0.06)); }
+
+  /* Glass header */
+  header.glass {
+    background: rgba(255,255,255,0.10);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.22);
+    padding:16px 0;
+    margin-bottom:24px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  /* Container */
+  .container{
+    max-width:1100px;
+    margin:0 auto;
+    padding:28px;
+  }
+
+  /* Main tool box - styled like blog posts */
+  .tool-card {
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(10px);
+    padding:22px;
+    border-radius:14px;
+    margin-bottom:26px;
+    box-shadow:0 8px 22px rgba(0,0,0,0.22);
+    border: 1px solid rgba(255,255,255,0.03);
+  }
+
+  h2, h3, h4 {
+    color:#f8fafc;
+    margin-top:0;
+  }
+
+  pre {
+    background: rgba(2,6,23,0.6);
+    border:1px solid rgba(255,255,255,0.06);
+    color:#e2e8f0;
+    padding:12px;
+    border-radius:8px;
+    font-family:monospace;
+    font-size:13px;
+  }
+
+  textarea, input {
+    width:100%;
+    font-family:monospace;
+    padding:10px;
+    box-sizing:border-box;
+    border-radius:8px;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.03);
+    color:white;
+    resize:vertical;
+  }
+
+  textarea::placeholder, input::placeholder {
+    color:#94a3b8;
+  }
+
+  button {
+    padding:8px 12px;
+    margin:6px 6px 6px 0;
+    cursor:pointer;
+    border-radius:8px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+    color:white;
+    border:1px solid rgba(255,255,255,0.06);
+    transition:0.12s;
+  }
+
+  button:hover {
+    transform:translateY(-2px);
+    background:linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04));
+  }
+  
+  #parsedOut, #packOut {
+  max-height: 360px;
+  overflow-y: auto;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+#xmlInput {
+  height:240px;
+}
+#parsedOut pre, #packOut pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+
+  .grid {
+    display:grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap:12px;
+  }
+
+  .tlv {font-family:monospace; font-size:13px; white-space:pre; color:#e6eef8;}
+
+  @media (max-width:900px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- Background Shapes -->
+<div class="bg-shapes" aria-hidden="true">
+  <div class="shape"></div><div class="shape"></div><div class="shape"></div>
+  <div class="shape"></div><div class="shape"></div><div class="shape"></div>
+</div>
+
+<!-- Header -->
+<header class="glass">
+  <div class="container" style="display:flex;justify-content:space-between;align-items:center;">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="font-size:28px;color:white;">💳</div>
+      <div>
+        <h1 style="margin:0;font-size:22px;">ISO8583 Converter & TLV Parser</h1>
+        <p style="margin:0;font-size:13px;color:#cfe8ff;">By Pratyush Saxena</p>
+      </div>
+    </div>
+    <nav>
+      <a href="index.html" style="color:#bfdbfe;text-decoration:none;font-size:14px;">← Back to Home</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Main -->
+<main>
+<div class="container">
+
+<!-- Tool Card -->
+<div class="tool-card">
+
+<h2>ISO8583 Tool — DE55 EMV TLV Parsing</h2>
+
+<div>
+  <button id="loadSample">Load sample XML</button>
+  <button id="parseXmlBtn">Parse XML</button>
+  <button id="xmlToIsoPackedBtn">XML → Packed ISO8583</button>
+  <button id="isoToJsonBtn">XML → JSON</button>
+  <button id="xmlToIso20022Btn">XML → ISO20022 JSON</button>
+  <button id="bitmapToJsonBtn">Bitmap → JSON</button>
+  <button id="unpackBtn">Unpack Packed Message</button>
+</div>
+
+<div class="grid">
+  <div>
+    <h3>ISO8583 XML Input</h3>
+    <textarea id="xmlInput"></textarea>
+  </div>
+  <div>
+    <h3>Packed / Raw Input</h3>
+    <textarea id="rawInput" placeholder="Paste packed message (MTI+Bitmap+Payload) here for unpacking"></textarea>
+  </div>
+</div>
+
+<div class="grid">
+  <div>
+    <h3>Parsed Fields</h3>
+    <div id="parsedOut"><pre>No parsed output yet.</pre></div>
+  </div>
+  <div>
+    <h3>Tool Output</h3>
+    <div id="packOut"><pre>No output yet.</pre></div>
+  </div>
+</div>
+
+<h3>Bitmap → JSON</h3>
+<div style="display:flex; gap:8px; margin-bottom:8px">
+  <input id="bitmapHex" placeholder="Enter bitmap hex or full packed message here" />
+  <button id="bmToJsonBtn">Convert</button>
+</div>
+<div id="bitmapJsonOut"><pre>Bitmap JSON will appear here</pre></div>
+
+<script>
+// minimal ISO name map (1..128)
+const ISO_NAMES = {
+  1:"Secondary Bitmap Indicator",2:"Primary Account Number",3:"Processing Code",
+  4:"Amount, Transaction",7:"Transmission Date and Time",11:"STAN",12:"Local Txn Time",
+  13:"Local Txn Date",14:"Expiration Date",18:"Merchant Type",32:"Acquiring Institution ID",
+  35:"Track 2 Data",37:"Retrieval Reference Number",41:"Terminal ID",42:"Merchant ID",
+  49:"Currency Code Transaction",52:"PIN Data",55:"ICC Data",60:"Reserved Private",
+  61:"Reserved Private",63:"Reserved Private",70:"Network Management Info Code",
+  90:"Original Data Elements",100:"Receiving Institution ID",102:"Account ID 1",128:"MAC"
+};
+
+// field specs for packing/parsing
+const ISO_SPEC = {
+  2:{type:"n",format:"LLVAR"},
+  3:{type:"n",length:6},
+  4:{type:"n",length:12},
+  7:{type:"n",length:10},
+  11:{type:"n",length:6},
+  12:{type:"n",length:6},
+  13:{type:"n",length:4},
+  14:{type:"n",length:4},
+  18:{type:"n",length:4},
+  32:{type:"n",format:"LLVAR"},
+  35:{type:"z",format:"LLVAR"},
+  37:{type:"ans",length:12},
+  38:{type:"ans",length:6},
+  39:{type:"ans",length:2},
+  41:{type:"ans",length:8},
+  42:{type:"ans",length:15},
+  43:{type:"ans",length:40},
+  49:{type:"n",length:3},
+  52:{type:"b",length:8},    // PIN block 8 bytes -> 16 hex chars
+  55:{type:"b",format:"LLVAR"}, // EMV TLV as hex
+  60:{type:"ans",format:"LLLVAR"},
+  61:{type:"ans",format:"LLLVAR"},
+  63:{type:"ans",format:"LLLVAR"},
+  90:{type:"ans",length:42},
+  100:{type:"ans",format:"LLVAR"},
+  102:{type:"ans",format:"LLVAR"},
+  103:{type:"ans",format:"LLVAR"},
+  128:{type:"b",length:8}    // MAC 8 bytes -> 16 hex chars
+};
+
+// safe stringify
+function safe(v){ return v===undefined||v===null ? "" : String(v); }
+
+// pack single field as ISO-compliant string, binary fields use hex bytes
+function isoPackField(field, value) {
+  value = safe(value);
+  let spec = ISO_SPEC[field];
+  if (!spec) {
+    let L = value.length.toString().padStart(2,"0");
+    return L + value;
+  }
+
+  if (spec.length) {
+    if (spec.type === "n") {
+      return value.padStart(spec.length, "0");
+    }
+    if (spec.type === "ans" || spec.type === "z") {
+      return value.padEnd(spec.length, " ");
+    }
+    if (spec.type === "b") {
+      // value expected as hex string
+      let hex = value.replace(/\s+/g,"").toUpperCase();
+      let targetHexLen = spec.length * 2;
+      return hex.padStart(targetHexLen, "0");
+    }
+  }
+
+  if (spec.format === "LLVAR") {
+    if (spec.type === "b") {
+      // hex input, length is bytes
+      let hex = value.replace(/\s+/g,"").toUpperCase();
+      let bytes = Math.ceil(hex.length / 2);
+      return String(bytes).padStart(2,"0") + hex;
+    }
+    let L = value.length.toString().padStart(2,"0");
+    return L + value;
+  }
+
+  if (spec.format === "LLLVAR") {
+    let L = value.length.toString().padStart(3,"0");
+    return L + value;
+  }
+
+  return value;
+}
+
+// parse XML to field map
+function parseXmlFields(xmlText) {
+  let doc = new DOMParser().parseFromString(xmlText, "application/xml");
+  if (doc.querySelector("parsererror")) return { error: "Invalid XML" };
+  let fields = {};
+  let mtiNode = doc.querySelector("MTI, mti");
+  let mti = mtiNode ? (mtiNode.textContent||"").trim() : "";
+
+  let nodes = Array.from(doc.getElementsByTagName("*"));
+  nodes.forEach(node => {
+    let tag = node.tagName || "";
+    if (/^\d{1,3}$/.test(tag)) {
+      let n = Number(tag);
+      if (n>=1 && n<=192) fields[n] = (node.textContent||"").trim();
+      return;
+    }
+    let m = tag.match(/^DE(\d{1,3})$/i);
+    if (m) {
+      let n = Number(m[1]);
+      if (n>=1 && n<=192) fields[n] = (node.textContent||"").trim();
+      return;
+    }
+    m = tag.match(/^(?:FIELD|F)(\d{1,3})$/i);
+    if (m) {
+      let n = Number(m[1]);
+      if (n>=1 && n<=192) fields[n] = (node.textContent||"").trim();
+      return;
+    }
+    let idAttr = node.getAttribute && (node.getAttribute("id") || node.getAttribute("num"));
+    if (idAttr && /^\d{1,3}$/.test(String(idAttr).trim())) {
+      let n = Number(String(idAttr).trim());
+      if (n>=1 && n<=192) fields[n] = (node.textContent||"").trim();
+    }
+  });
+
+  // parse DE55 TLV when present
+  if (fields[55]) {
+    try { fields["55_tlv"] = parseTlv(fields[55]); } catch(e){ fields["55_tlv_error"] = String(e); }
+  }
+
+  return { mti, fields };
+}
+
+// TLV parser for EMV (DE55)
+function isHexChar(c) { return /^[0-9A-Fa-f]$/.test(c); }
+function hexByte(hexStr, pos) { return parseInt(hexStr.substr(pos,2),16); }
+function hexToAscii(hex) {
+  let s = "";
+  for (let i=0;i<hex.length;i+=2) {
+    let b = parseInt(hex.substr(i,2),16);
+    s += (b >= 32 && b <= 126) ? String.fromCharCode(b) : '.';
+  }
+  return s;
+}
+
+function parseTlv(hex) {
+  if (!hex) return [];
+  hex = String(hex).replace(/\s+/g,"").toUpperCase();
+  if (hex.length % 2 !== 0) throw new Error("TLV hex length must be even");
+  let pos = 0;
+
+  function readTag() {
+    if (pos + 2 > hex.length) throw new Error("Unexpected end while reading tag");
+    let firstByte = hexByte(hex, pos);
+    let tagHex = hex.substr(pos,2);
+    pos += 2;
+    if ((firstByte & 0x1F) === 0x1F) {
+      // multi-byte tag
+      while (true) {
+        if (pos + 2 > hex.length) throw new Error("Unexpected end in extended tag");
+        let b = hexByte(hex, pos);
+        tagHex += hex.substr(pos,2);
+        pos += 2;
+        if ((b & 0x80) === 0) break;
+      }
+    }
+    return tagHex;
+  }
+
+  function readLength() {
+    if (pos + 2 > hex.length) throw new Error("Unexpected end while reading length");
+    let lenByte = hexByte(hex, pos);
+    pos += 2;
+    if (lenByte < 0x80) return lenByte;
+    let numBytes = lenByte & 0x7F;
+    if (numBytes === 0 || numBytes > 4) throw new Error("Unsupported length encoding");
+    if (pos + (numBytes*2) > hex.length) throw new Error("Unexpected end in length bytes");
+    let val = 0;
+    for (let i=0;i<numBytes;i++) {
+      val = (val << 8) + hexByte(hex, pos);
+      pos += 2;
+    }
+    return val;
+  }
+
+  function parseOne() {
+    let tag = readTag();
+    let length = readLength();
+    if (pos + length*2 > hex.length) throw new Error("Value exceeds TLV length");
+    let valueHex = hex.substr(pos, length*2);
+    pos += length*2;
+    let firstTagByte = parseInt(tag.substr(0,2),16);
+    let constructed = (firstTagByte & 0x20) === 0x20;
+    let value;
+    if (constructed && length>0) {
+      try {
+        let nested = parseTlv(valueHex);
+        value = { nested: nested };
+      } catch(e) {
+        value = { raw: valueHex, ascii: hexToAscii(valueHex) };
+      }
+    } else {
+      value = { raw: valueHex, ascii: hexToAscii(valueHex) };
+    }
+    return { tag, length, constructed, value };
+  }
+
+  let out = [];
+  while (pos < hex.length) out.push(parseOne());
+  return out;
+}
+
+function tlvToText(tlvArray, indent) {
+  indent = indent || "";
+  if (!Array.isArray(tlvArray)) return "";
+  let lines = [];
+  tlvArray.forEach(it=>{
+    let as = (it.value && it.value.ascii) ? it.value.ascii : "";
+    lines.push(indent + "[" + it.tag + "] len=" + it.length + (it.constructed ? " constructed" : "") + " value=" + (it.value && it.value.raw ? it.value.raw : ""));
+    if (as) lines.push(indent + "  ascii: " + as);
+    if (it.constructed && it.value && it.value.nested) {
+      lines.push(tlvToText(it.value.nested, indent + "  "));
+    }
+  });
+  return lines.join("\n");
+}
+
+// build bitmap hex from numeric field list
+function buildBitmapsHex(fieldNums) {
+  let nums = fieldNums.map(n=>Number(n)).filter(n=>Number.isInteger(n) && n>=2 && n<=192);
+  if (nums.length === 0) return { hex:"" };
+  let maxF = Math.max(...nums);
+  let groups = Math.ceil(maxF/64);
+  if (groups < 1) groups = 1;
+  if (groups > 3) groups = 3;
+  let groupsBits = Array.from({length:groups}, ()=>Array(64).fill(0));
+  nums.forEach(f=>{
+    let idx = f-1;
+    let g = Math.floor(idx/64);
+    let pos = idx % 64;
+    if (g < groups) groupsBits[g][pos] = 1;
+  });
+  if (groups >= 2) groupsBits[0][0] = 1;
+  if (groups >= 3) groupsBits[1][0] = 1;
+  let hexParts = groupsBits.map(bits=>{
+    let hex = "";
+    for (let b=0;b<64;b+=8) {
+      let byte = bits.slice(b,b+8).reduce((acc,bit)=> (acc<<1)|bit, 0);
+      hex += byte.toString(16).padStart(2,"0").toUpperCase();
+    }
+    return hex;
+  });
+  return { hex: hexParts.join(""), parts: hexParts, groupsBits };
+}
+
+// hex -> bits
+function hexToBits(hex) {
+  hex = String(hex||"").replace(/\s+/g,"").toUpperCase();
+  let bits = [];
+  for (let i=0;i<hex.length;i++) {
+    let v = parseInt(hex[i],16);
+    for (let b=3;b>=0;b--) bits.push((v>>b)&1);
+  }
+  return bits;
+}
+
+/* bitmap extraction */
+function extractBitmapFromHexRun(hex) {
+  hex = hex.toUpperCase();
+  if (hex.length < 16) return { error:"Need at least 16 hex chars for primary bitmap" };
+  let primary = hex.slice(0,16);
+  if (!/^[0-9A-F]{16}$/.test(primary)) return { error:"Primary is not valid hex" };
+  let bitmap = primary;
+  let bits1 = hexToBits(primary);
+  if (bits1[0] === 1) {
+    if (hex.length < 32) return { error:"Bitmap indicates secondary but not enough hex" };
+    let secondary = hex.slice(16,32);
+    if (!/^[0-9A-F]{16}$/.test(secondary)) return { error:"Secondary not valid hex" };
+    bitmap += secondary;
+    let bits2 = hexToBits(secondary);
+    if (bits2[0] === 1) {
+      if (hex.length < 48) return { error:"Bitmap indicates tertiary but not enough hex" };
+      let tertiary = hex.slice(32,48);
+      if (!/^[0-9A-F]{16}$/.test(tertiary)) return { error:"Tertiary not valid hex" };
+      bitmap += tertiary;
+    }
+  }
+  return { bitmapHex: bitmap };
+}
+
+function findBitmapHexInText(input) {
+  if (!input) return { error: "Empty input" };
+  let s = String(input).replace(/\r\n/g,"").replace(/\n/g,"").trim();
+  if (/^[0-9A-Fa-f]+$/.test(s)) return extractBitmapFromHexRun(s);
+  let baseIndex = 0;
+  if (s.length >= 4 && /^[0-9]{4}$/.test(s.slice(0,4))) baseIndex = 4;
+  let hexRun = "";
+  for (let i = baseIndex; i < s.length; i++) {
+    let c = s[i];
+    if (/[0-9A-Fa-f]/.test(c)) hexRun += c;
+    else break;
+  }
+  if (!hexRun || hexRun.length < 16) return { error: "Not enough hex for primary bitmap" };
+  return extractBitmapFromHexRun(hexRun);
+}
+
+/* Unpacker that uses TLV parser for DE55 */
+function unpackIso(message) {
+  if (!message || !message.trim()) return { error: "Empty message" };
+  let s = String(message)
+        .replace(/[\u200B-\u200F\u202A-\u202E]/g, "")
+        .replace(/\r\n/g,"")
+        .replace(/\n/g,"")
+        .replace(/\s+/g,"")
+        .trim();
+
+  if (s.length < 4) return { error: "Message too short for MTI" };
+  let mti = s.slice(0,4);
+  if (!/^[0-9]{4}$/.test(mti)) return { error: "MTI not found or invalid (expect 4 digits at start)" };
+
+  let rest = s.slice(4);
+  if (rest.length < 16) return { error: "Not enough data for primary bitmap after MTI" };
+
+  let bmpStart = 0;
+  if (!/^[0-9A-Fa-f]{16}/.test(rest)) {
+    let found = -1;
+    for (let i=1;i<=8 && i+16 <= rest.length;i++) {
+      if (/^[0-9A-Fa-f]{16}/.test(rest.slice(i))) { found = i; break; }
+    }
+    if (found === -1) return { error: "Primary bitmap hex not found right after MTI" };
+    bmpStart = found;
+  }
+
+  let candidate = rest.slice(bmpStart);
+  let bres = extractBitmapFromHexRun(candidate);
+  if (bres.error) return { error: "Bitmap extraction failed: " + bres.error };
+  let bitmapHex = bres.bitmapHex;
+  let payloadStartInRest = bmpStart + bitmapHex.length;
+  let payload = rest.slice(payloadStartInRest);
+
+  let bits = hexToBits(bitmapHex);
+  let set = [];
+  for (let i=0;i<bits.length;i++) {
+    if (bits[i]===1) {
+      let f = i+1;
+      if (f===1) continue;
+      set.push(f);
+    }
+  }
+
+  let cursor = 0;
+  let fields = {};
+  for (let idx=0; idx<set.length; idx++) {
+    let f = set[idx];
+    let spec = ISO_SPEC[f];
+
+    if (!spec) {
+      if (cursor + 2 > payload.length) { fields[f] = null; break; }
+      let L = parseInt(payload.slice(cursor, cursor+2), 10);
+      if (Number.isNaN(L)) { fields[f] = null; break; }
+      cursor += 2;
+      fields[f] = payload.substr(cursor, L);
+      cursor += L;
+      continue;
+    }
+
+    if (spec.length && !spec.format) {
+      if (spec.type === "b") {
+        let hexLen = spec.length * 2;
+        if (cursor + hexLen > payload.length) { fields[f] = null; cursor = payload.length; break; }
+        let valHex = payload.substr(cursor, hexLen).toUpperCase();
+        fields[f] = valHex;
+        cursor += hexLen;
+      } else {
+        let L = spec.length;
+        if (cursor + L > payload.length) { fields[f] = null; cursor = payload.length; break; }
+        let raw = payload.substr(cursor, L);
+        fields[f] = raw;
+        cursor += L;
+      }
+      continue;
+    }
+
+    if (spec.format === "LLVAR") {
+      if (cursor + 2 > payload.length) { fields[f] = null; break; }
+      let lenStr = payload.substr(cursor,2);
+      if (spec.type === "b") {
+        let bytes = parseInt(lenStr,10);
+        if (Number.isNaN(bytes)) { fields[f] = null; break; }
+        cursor += 2;
+        let hexLen = bytes * 2;
+        if (cursor + hexLen > payload.length) { fields[f] = null; break; }
+        let valHex = payload.substr(cursor, hexLen).toUpperCase();
+        fields[f] = valHex;
+        cursor += hexLen;
+      } else {
+        let len = parseInt(lenStr,10);
+        if (Number.isNaN(len)) { fields[f] = null; break; }
+        cursor += 2;
+        if (cursor + len > payload.length) { fields[f] = null; break; }
+        let raw = payload.substr(cursor, len);
+        fields[f] = raw;
+        cursor += len;
+      }
+      continue;
+    }
+
+    if (spec.format === "LLLVAR") {
+      if (cursor + 3 > payload.length) { fields[f] = null; break; }
+      let lenStr = payload.substr(cursor,3);
+      let len = parseInt(lenStr,10);
+      if (Number.isNaN(len)) { fields[f] = null; break; }
+      cursor += 3;
+      if (cursor + len > payload.length) { fields[f] = null; break; }
+      let raw = payload.substr(cursor, len);
+      fields[f] = raw;
+      cursor += len;
+      continue;
+    }
+
+    fields[f] = null;
+  }
+
+  // parse DE55 TLV if present
+  if (fields[55]) {
+    try { fields["55_tlv"] = parseTlv(fields[55]); }
+    catch(e){ fields["55_tlv_error"] = String(e); }
+  }
+
+  return { mti, bitmapHex, fields, payloadRemaining: payload.substr(cursor) };
+}
+
+/* ISO8583 -> ISO20022 converter (includes TLV parsed object) */
+
+function amtFromDE4(v) {
+  let s = (v||"").replace(/\D/g,"");
+  if (!s) return null;
+  let cents = parseInt(s,10);
+  if (Number.isNaN(cents)) return null;
+  return (cents / 100).toFixed(2);
+}
+function maskPAN(pan) {
+  pan = pan || "";
+  return pan.replace(/.(?=.{4})/g, "*");
+}
+
+function tlvArrayToObj(tlvArr) {
+  let obj = {};
+  if (!Array.isArray(tlvArr)) return obj;
+  tlvArr.forEach(it => {
+    if (it.constructed && it.value && it.value.nested) {
+      obj[it.tag] = { constructed: true, nested: tlvArrayToObj(it.value.nested) };
+    } else {
+      obj[it.tag] = it.value ? it.value.raw : "";
+    }
+  });
+  return obj;
+}
+
+function iso8583ToISO20022Json(xmlText) {
+  let parsed = parseXmlFields(xmlText);
+  if (parsed.error) return { error: parsed.error };
+  let f = parsed.fields;
+  let now = new Date().toISOString();
+
+  let iso20022 = {
+    "Document": {
+      "FIToFICstmrCdtTrf": {
+        "GrpHdr": {
+          "MsgId": (parsed.mti || "MTI") + "-" + (f[11] || ""),
+          "CreDtTm": now,
+          "NbOfTxs": "1",
+          "CtrlSum": amtFromDE4(f[4]) || "0.00",
+          "InitgPty": { "Nm": f[42] || f[41] || "UNKNOWN" }
+        },
+        "PmtInf": {
+          "PmtInfId": f[37] || ("PMT-"+(f[11]||Date.now())),
+          "PmtMtd": "TRF",
+          "ReqdExctnDt": (new Date()).toISOString().slice(0,10),
+          "Dbtr": { "Nm": f[43] ? f[43].substr(0,35).trim() : f[41] || "" },
+          "DbtrAcct": { "Id": { "Othr": { "Id": f[102] || "" } } },
+          "CdtTrfTxInf": [
+            {
+              "PmtId": { "InstrId": f[37] || "", "EndToEndId": f[37] || "" },
+              "Amt": { "InstdAmt": { "value": amtFromDE4(f[4]) || "0.00", "Ccy": f[49] || "UNK" } },
+              "Cdtr": { "Nm": f[43] ? f[43].substr(0,35).trim() : "" },
+              "CdtrAcct": { "Id": { "Othr": { "Id": f[32] || f[100] || "" } } },
+              "RmtInf": { "Ustrd": f[90] || "" }
+            }
+          ]
+        },
+        "SplmtryData": {
+          "Card": {
+            "PAN": maskPAN(f[2] || ""),
+            "Expiry": f[14] || "",
+            "AdditionalData": { "DE55": f[55] || "" }
+          },
+          "Terminal": {
+            "TerminalId": f[41] || "",
+            "MerchantId": f[42] || ""
+          }
+        }
+      }
+    }
+  };
+
+  // attach parsed TLV object if present
+  if (f["55_tlv"]) {
+    iso20022.Document.FIToFICstmrCdtTrf.SplmtryData.Card.EMV = tlvArrayToObj(f["55_tlv"]);
+    iso20022.Document.FIToFICstmrCdtTrf.SplmtryData.Card.EMV_pretty = tlvToText(f["55_tlv"], "  ");
+  }
+
+  // remove empty
+  function removeEmpty(obj) {
+    if (obj && typeof obj === "object") {
+      Object.keys(obj).forEach(k => {
+        removeEmpty(obj[k]);
+        if (obj[k] === null || obj[k] === "" || (typeof obj[k] === "object" && Object.keys(obj[k]).length === 0)) delete obj[k];
+      });
+    }
+  }
+  removeEmpty(iso20022);
+  return iso20022;
+}
+
+/* UI handlers */
+
+/* XML -> Packed ISO8583 (MTI + bitmap hex + packed payload) */
+document.getElementById("xmlToIsoPackedBtn").onclick = function() {
+  let xml = document.getElementById("xmlInput").value || "";
+  let parsed = parseXmlFields(xml);
+  if (parsed.error) { document.getElementById("packOut").innerHTML = "<pre>"+parsed.error+"</pre>"; return; }
+  let mti = parsed.mti || "0200";
+  let fields = Object.keys(parsed.fields).map(Number).filter(n=>n>=2 && n<=192).sort((a,b)=>a-b);
+  let bm = buildBitmapsHex(fields);
+
+  let payload = "";
+  fields.forEach(f=>{
+    let spec = ISO_SPEC[f];
+    if (spec && spec.type === "b" && spec.format === "LLVAR") {
+      let hex = (parsed.fields[f]||"").replace(/\s+/g,"");
+      let bytes = Math.ceil(hex.length/2);
+      payload += String(bytes).padStart(2,"0") + hex.toUpperCase();
+    } else {
+      payload += isoPackField(f, parsed.fields[f]);
+    }
+  });
+
+  let finalMsg = mti + (bm.hex || "") + payload;
+  let out = "MTI: " + mti + "\nBitmap: " + (bm.hex || "") + "\n\nPacked fields:\n";
+  fields.forEach(f => out += "DE"+f+" = "+ (parsed.fields[f]||"") +"  -> packed: "+ ( (ISO_SPEC[f] && ISO_SPEC[f].type==="b" && ISO_SPEC[f].format==="LLVAR") ? ( String(Math.ceil((parsed.fields[f]||"").replace(/\s+/g,"").length/2)).padStart(2,"0") + (parsed.fields[f]||"").replace(/\s+/g,"").toUpperCase() ) : isoPackField(f, parsed.fields[f]) ) + "\n");
+  out += "\nFinal message (MTI+Bitmap+Payload):\n" + finalMsg;
+  document.getElementById("packOut").innerHTML = "<pre>"+out+"</pre>";
+};
+
+/* parse xml to JSON */
+document.getElementById("parseXmlBtn").onclick = function() {
+  let xml = document.getElementById("xmlInput").value || "";
+  let parsed = parseXmlFields(xml);
+  // show parsed fields, include TLV parsed if present
+  let out = JSON.parse(JSON.stringify(parsed));
+  if (out.fields && out.fields["55_tlv"]) {
+    out.fields["55_tlv_pretty"] = tlvToText(out.fields["55_tlv"], "  ");
+  }
+  document.getElementById("parsedOut").innerHTML = "<pre>"+JSON.stringify(out, null, 2)+"</pre>";
+};
+
+document.getElementById("isoToJsonBtn").onclick = function() {
+  let xml = document.getElementById("xmlInput").value || "";
+  let parsed = parseXmlFields(xml);
+  document.getElementById("packOut").innerHTML = "<pre>"+JSON.stringify(parsed, null, 2)+"</pre>";
+};
+
+/* XML -> ISO20022 JSON */
+document.getElementById("xmlToIso20022Btn").onclick = function() {
+  let xml = document.getElementById("xmlInput").value || "";
+  if (!xml.trim()) { document.getElementById("packOut").innerHTML = "<pre>No XML provided</pre>"; return; }
+  let conv = iso8583ToISO20022Json(xml);
+  if (conv.error) { document.getElementById("packOut").innerHTML = "<pre>"+conv.error+"</pre>"; return; }
+  // show pretty TLV under JSON if present
+  document.getElementById("packOut").innerHTML = "<pre>"+JSON.stringify(conv, null, 2) + (conv.Document && conv.Document.FIToFICstmrCdtTrf && conv.Document.FIToFICstmrCdtTrf.SplmtryData && conv.Document.FIToFICstmrCdtTrf.SplmtryData.Card && conv.Document.FIToFICstmrCdtTrf.SplmtryData.Card.EMV_pretty ? ("\n\nDE55 TLV:\n" + conv.Document.FIToFICstmrCdtTrf.SplmtryData.Card.EMV_pretty) : "")+"</pre>";
+};
+
+/* bitmap -> json */
+document.getElementById("bitmapToJsonBtn").onclick = function () {
+  let raw = (document.getElementById("bitmapHex").value || "").trim();
+  if (!raw) {
+    document.getElementById("bitmapJsonOut").innerHTML = "<pre>No input.</pre>";
+    return;
+  }
+
+  let res = findBitmapHexInText(raw);
+  if (res.error) {
+    document.getElementById("bitmapJsonOut").innerHTML = "<pre>"+res.error+"</pre>";
+    return;
+  }
+
+  let bitmapHex = res.bitmapHex;
+  let bits = hexToBits(bitmapHex);
+
+  let secondaryBitmap = bits[0] === 1;
+
+  let set = [];
+  for (let i = 0; i < bits.length; i++) {
+    if (bits[i] === 1) {
+      let fieldNum = i + 1;
+      if (fieldNum === 1) continue;
+      set.push(fieldNum);
+    }
+  }
+
+  let map = {};
+  set.forEach(f => map[f] = ISO_NAMES[f] || "");
+
+  document.getElementById("bitmapJsonOut").innerHTML =
+    "<pre>" + JSON.stringify({
+      bitmapHex: bitmapHex,
+      secondaryBitmap: secondaryBitmap,
+      setFields: set,
+      mapping: map
+    }, null, 2) + "</pre>";
+};
+
+document.getElementById("bmToJsonBtn").onclick = function(){ document.getElementById("bitmapToJsonBtn").click(); };
+
+/* unpack button handler */
+document.getElementById("unpackBtn").onclick = function() {
+  // prefer packed message from rawInput, fallback to xmlInput if empty
+  let packed = (document.getElementById("rawInput").value || "").trim();
+  if (!packed) packed = (document.getElementById("xmlInput").value || "").trim();
+  if (!packed) { document.getElementById("packOut").innerHTML = "<pre>No packed message provided in Packed / Raw Input or XML Input.</pre>"; return; }
+
+  let res = unpackIso(packed);
+  if (res.error) {
+    document.getElementById("packOut").innerHTML = "<pre>Unpack error: " + res.error + "</pre>";
+    return;
+  }
+
+  // pretty output
+  let out = "MTI: " + res.mti + "\nBitmap: " + res.bitmapHex + "\n\nFields:\n";
+  Object.keys(res.fields).sort((a,b)=>Number(a)-Number(b)).forEach(k => {
+    let v = res.fields[k];
+    if (k === "55" || k === 55) {
+      out += "DE55 (hex) = " + (v === null ? "<incomplete>" : v) + "\n";
+      if (res.fields["55_tlv"]) out += "\nDE55 TLV:\n" + tlvToText(res.fields["55_tlv"], "  ") + "\n";
+    } else {
+      out += "DE" + k + " = " + (v === null ? "<incomplete>" : v) + "\n";
+    }
+  });
+  out += "\nPayload remaining (if any):\n" + (res.payloadRemaining || "<none>");
+
+  document.getElementById("packOut").innerHTML = "<pre>"+out+"</pre>";
+  document.getElementById("parsedOut").innerHTML = "<pre>"+JSON.stringify(res, null, 2) + (res.fields && res.fields["55_tlv"] ? ("\n\nDE55 TLV:\n" + tlvToText(res.fields["55_tlv"], "  ")) : "")+"</pre>";
+};
+
+/* sample loader */
+document.getElementById("loadSample").onclick = function() {
+  document.getElementById("xmlInput").value =
+`<ISO8583>
+  <MTI>0200</MTI>
+  <field id="2">4761739001010119</field>
+  <field id="3">000000</field>
+  <field id="4">000000010000</field>
+  <field id="7">1122153030</field>
+  <field id="11">123456</field>
+  <field id="12">153030</field>
+  <field id="13">1122</field>
+  <field id="18">6011</field>
+  <field id="32">412345</field>
+  <field id="37">654321987654</field>
+  <field id="41">TERM1234</field>
+  <field id="42">MID987654321000</field>
+  <field id="49">356</field>
+  <DE55>5F200A4A6F686E20446F65015F340101</DE55>
+  <DE60>1234567890</DE60>
+  <DE61>ABCD1234</DE61>
+  <DE63>XYZ987</DE63>
+  <DE90>AB120001234501234567890123456789</DE90>
+  <DE100>40012345678</DE100>
+  <DE102>1234567890123456</DE102>
+  <DE128>ABCDEF1234567890</DE128>
+</ISO8583>`;
+  document.getElementById("packOut").innerHTML = "<pre>Sample loaded. Click a button.</pre>";
+};
+</script>
+
+</div> <!-- tool-card -->
+
+</div>
+</main>
+
+</body>
+</html>
