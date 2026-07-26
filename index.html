@@ -149,26 +149,95 @@
         </div>
     </div>
 
-    <!-- PROJECTS PAGE -->
-    <div id="projects" class="page">
-        <div class="container">
-            <div class="content-wrapper">
+<!-- PROJECTS PAGE -->
+<div id="projects" class="page">
+    <div class="container">
+        <div class="content-wrapper">
 
-                <section class="hero glass">
-                    <h1>Projects</h1>
-                    <p>Explore my technical tools and engineering projects</p>
-                </section>
+            <section class="hero glass">
+                <h1>Projects</h1>
+                <p>Explore my payment engineering tools, HSM training resources and technical projects.</p>
+            </section>
 
-                <section class="features">
-                    <div class="feature-card glass" onclick="window.location.href='isoparser.html'" style="cursor:pointer;">
-                        <h3>ISO8583 Parser and TLV Tool</h3>
-                        <p>A full-feature ISO8583 builder, unpacker, ISO20022 converter and DE55 EMV parser.</p>
+            <section class="features">
+
+                <!-- ISO 8583 PROJECT -->
+                <div class="feature-card glass project-card"
+                     onclick="window.location.href='isoparser.html'"
+                     style="cursor:pointer;">
+
+                    <div class="project-icon">💳</div>
+
+                    <h3>ISO 8583 Parser and TLV Tool</h3>
+
+                    <p>
+                        ISO 8583 message builder, unpacker,
+                        ISO 20022 converter and DE55 EMV TLV parser.
+                    </p>
+
+                    <div class="project-tags">
+                        <span>ISO 8583</span>
+                        <span>ISO 20022</span>
+                        <span>EMV</span>
+                        <span>TLV</span>
                     </div>
-                </section>
 
-            </div>
+                    <div class="project-link">
+                        Open Tool →
+                    </div>
+
+                </div>
+
+
+                <!-- LUNA HSM TRAINING -->
+                <div class="feature-card glass project-card"
+                     onclick="window.location.href='luna-training.html'"
+                     style="cursor:pointer;">
+
+                    <div class="project-icon">🔐</div>
+
+                    <h3>Luna HSM Training</h3>
+
+                    <p>
+                        Structured Thales Luna HSM training covering
+                        architecture, administration, partitions,
+                        key management, HA, backup, security and troubleshooting.
+                    </p>
+
+                    <div class="project-tags">
+                        <span>Luna HSM</span>
+                        <span>PKCS#11</span>
+                        <span>Cryptography</span>
+                        <span>Key Management</span>
+                    </div>
+
+                    <div class="training-resources">
+
+                        <div class="resource">
+                            📚 Training Content
+                        </div>
+
+                        <div class="resource">
+                            🧪 Hands-on Labs
+                        </div>
+
+                        <div class="resource">
+                            📝 Training MCQ
+                        </div>
+
+                    </div>
+
+                    <div class="project-link">
+                        Start Training →
+                    </div>
+
+                </div>
+
+            </section>
+
         </div>
     </div>
+</div>
 
     <script src="templatemo-glossy-touch.js"></script>
 
