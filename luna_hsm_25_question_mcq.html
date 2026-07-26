@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Luna HSM Knowledge Assessment</title>
+<link rel="stylesheet" href="templatemo-glossy-touch.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;color:#fff;background:linear-gradient(135deg,#071426,#102a43,#12395a);min-height:100vh}
+.bg-shapes{position:fixed;inset:0;overflow:hidden;z-index:-1}
+.shape{position:absolute;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,.055);filter:blur(2px)}
+.shape:nth-child(1){top:-80px;left:-60px} .shape:nth-child(2){top:25%;right:-120px}
+.shape:nth-child(3){bottom:-100px;left:15%} .shape:nth-child(4){top:55%;left:-130px}
+.container{width:min(1100px,92%);margin:auto}
+.glass{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);box-shadow:0 10px 35px rgba(0,0,0,.22);backdrop-filter:blur(14px);border-radius:20px}
+header{padding:22px 0}
+nav{padding:16px 22px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.logo{display:flex;align-items:center;gap:12px;font-weight:700;font-size:20px}
+.logo-icon{font-size:28px}
+.nav-meta{font-size:14px;opacity:.8}
+.hero{padding:34px;margin:10px 0 24px}
+.hero h1{font-size:clamp(30px,5vw,48px);margin:0 0 10px}
+.hero p{max-width:780px;line-height:1.65;margin:0;opacity:.9}
+.progress-wrap{margin-top:25px}
+.progress-info{display:flex;justify-content:space-between;margin-bottom:8px;font-size:14px}
+.progress{height:10px;background:rgba(255,255,255,.12);border-radius:20px;overflow:hidden}
+.progress-bar{height:100%;width:0;background:#fff;transition:.3s}
+.quiz-grid{display:grid;gap:18px;padding-bottom:30px}
+.question-card{padding:25px}
+.question-top{display:flex;justify-content:space-between;gap:15px;align-items:center}
+.qnum{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;opacity:.75}
+.status{font-size:12px;padding:7px 10px;border-radius:20px;background:rgba(255,255,255,.1)}
+.question-card h3{font-size:19px;line-height:1.45;margin:16px 0}
+.options{display:grid;gap:10px}
+.option{display:flex;align-items:center;gap:12px;padding:13px 15px;border:1px solid rgba(255,255,255,.15);border-radius:12px;cursor:pointer;background:rgba(255,255,255,.05);transition:.2s}
+.option:hover{transform:translateY(-1px);background:rgba(255,255,255,.1)}
+.option input{accent-color:#fff}
+.letter{width:28px;height:28px;display:grid;place-items:center;border-radius:50%;background:rgba(255,255,255,.12);font-weight:700}
+.option.correct{background:rgba(38,166,91,.28);border-color:rgba(105,240,174,.75)}
+.option.wrong{background:rgba(220,70,70,.28);border-color:rgba(255,130,130,.75)}
+.feedback{display:none;margin-top:14px;padding:13px;border-radius:12px;line-height:1.5;background:rgba(0,0,0,.16)}
+.actions{position:sticky;bottom:15px;padding:15px;margin:0 auto 30px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+button{border:0;border-radius:12px;padding:13px 20px;font-weight:700;cursor:pointer}
+.primary{background:#fff;color:#102a43}
+.secondary{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.2)}
+.result{display:none;padding:30px;margin-bottom:22px;text-align:center}
+.score{font-size:58px;font-weight:800;margin:10px}
+.result h2{margin:0}
+.result p{line-height:1.6}
+@media(max-width:650px){nav{align-items:flex-start;flex-direction:column}.question-card{padding:19px}.question-top{align-items:flex-start}}
+</style>
+</head>
+<body>
+<div class="bg-shapes"><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div></div>
+<header><div class="container"><nav class="glass">
+<div class="logo"><div class="logo-icon">🔐</div><span>Luna HSM Training</span></div>
+<div class="nav-meta">25 Question Knowledge Assessment</div>
+</nav></div></header>
+
+<main class="container">
+<section class="hero glass">
+<h1>Luna HSM Comprehensive Review</h1>
+<p>Select one answer for each question. Your selection is recorded immediately. Click <strong>Submit Quiz</strong> to see your score, correct answers, and explanations.</p>
+<div class="progress-wrap"><div class="progress-info"><span id="answeredText">0 of 25 answered</span><span id="progressPct">0%</span></div>
+<div class="progress"><div class="progress-bar" id="progressBar"></div></div></div>
+</section>
+
+<section class="result glass" id="resultBox">
+<h2>Your Result</h2><div class="score" id="scoreText">0/25</div>
+<p id="scoreMessage"></p>
+</section>
+
+<section class="quiz-grid"><article class="question-card glass" id="qcard-1">
+<div class="question-top"><span class="qnum">Question 1</span><span class="status" id="status-1">Not answered</span></div>
+<h3>True or False: The HSM Security Officer can see the keys stored inside an application partition.</h3>
+<div class="options"><label class="option" id="label-1-0">
+<input type="radio" name="q1" value="0" onchange="selectAnswer(1,0)">
+<span class="letter">A</span><span>True</span>
+</label><label class="option" id="label-1-1">
+<input type="radio" name="q1" value="1" onchange="selectAnswer(1,1)">
+<span class="letter">B</span><span>False</span>
+</label></div>
+<div class="feedback" id="feedback-1"></div>
+</article><article class="question-card glass" id="qcard-2">
+<div class="question-top"><span class="qnum">Question 2</span><span class="status" id="status-2">Not answered</span></div>
+<h3>Which firmware version introduced the V0/V1 partition distinction?</h3>
+<div class="options"><label class="option" id="label-2-0">
+<input type="radio" name="q2" value="0" onchange="selectAnswer(2,0)">
+<span class="letter">A</span><span>Firmware 7.4.0</span>
+</label><label class="option" id="label-2-1">
+<input type="radio" name="q2" value="1" onchange="selectAnswer(2,1)">
+<span class="letter">B</span><span>Firmware 7.7.0</span>
+</label><label class="option" id="label-2-2">
+<input type="radio" name="q2" value="2" onchange="selectAnswer(2,2)">
+<span class="letter">C</span><span>Firmware 7.8.0</span>
+</label><label class="option" id="label-2-3">
+<input type="radio" name="q2" value="3" onchange="selectAnswer(2,3)">
+<span class="letter">D</span><span>Firmware 7.9.0</span>
+</label></div>
+<div class="feedback" id="feedback-2"></div>
+</article><article class="question-card glass" id="qcard-3">
+<div class="question-top"><span class="qnum">Question 3</span><span class="status" id="status-3">Not answered</span></div>
+<h3>What happens to an FM-enabled HSM regarding FIPS compliance?</h3>
+<div class="options"><label class="option" id="label-3-0">
+<input type="radio" name="q3" value="0" onchange="selectAnswer(3,0)">
+<span class="letter">A</span><span>It remains fully FIPS compliant</span>
+</label><label class="option" id="label-3-1">
+<input type="radio" name="q3" value="1" onchange="selectAnswer(3,1)">
+<span class="letter">B</span><span>It moves to a higher FIPS level</span>
+</label><label class="option" id="label-3-2">
+<input type="radio" name="q3" value="2" onchange="selectAnswer(3,2)">
+<span class="letter">C</span><span>Enabling Functionality Modules removes the HSM from FIPS compliance</span>
+</label><label class="option" id="label-3-3">
+<input type="radio" name="q3" value="3" onchange="selectAnswer(3,3)">
+<span class="letter">D</span><span>Only the partition loses FIPS compliance</span>
+</label></div>
+<div class="feedback" id="feedback-3"></div>
+</article><article class="question-card glass" id="qcard-4">
+<div class="question-top"><span class="qnum">Question 4</span><span class="status" id="status-4">Not answered</span></div>
+<h3>What is the start position offset for session key 3 in EFT function EE2064?</h3>
+<div class="options"><label class="option" id="label-4-0">
+<input type="radio" name="q4" value="0" onchange="selectAnswer(4,0)">
+<span class="letter">A</span><span>Offset 1</span>
+</label><label class="option" id="label-4-1">
+<input type="radio" name="q4" value="1" onchange="selectAnswer(4,1)">
+<span class="letter">B</span><span>Offset 2</span>
+</label><label class="option" id="label-4-2">
+<input type="radio" name="q4" value="2" onchange="selectAnswer(4,2)">
+<span class="letter">C</span><span>Offset 3</span>
+</label><label class="option" id="label-4-3">
+<input type="radio" name="q4" value="3" onchange="selectAnswer(4,3)">
+<span class="letter">D</span><span>Offset 4</span>
+</label></div>
+<div class="feedback" id="feedback-4"></div>
+</article><article class="question-card glass" id="qcard-5">
+<div class="question-top"><span class="qnum">Question 5</span><span class="status" id="status-5">Not answered</span></div>
+<h3>Which command initializes the Remote PED Vector?</h3>
+<div class="options"><label class="option" id="label-5-0">
+<input type="radio" name="q5" value="0" onchange="selectAnswer(5,0)">
+<span class="letter">A</span><span>hsm ped vector create</span>
+</label><label class="option" id="label-5-1">
+<input type="radio" name="q5" value="1" onchange="selectAnswer(5,1)">
+<span class="letter">B</span><span>hsm ped vector init</span>
+</label><label class="option" id="label-5-2">
+<input type="radio" name="q5" value="2" onchange="selectAnswer(5,2)">
+<span class="letter">C</span><span>ped vector initialize</span>
+</label><label class="option" id="label-5-3">
+<input type="radio" name="q5" value="3" onchange="selectAnswer(5,3)">
+<span class="letter">D</span><span>hsm remote ped init</span>
+</label></div>
+<div class="feedback" id="feedback-5"></div>
+</article><article class="question-card glass" id="qcard-6">
+<div class="question-top"><span class="qnum">Question 6</span><span class="status" id="status-6">Not answered</span></div>
+<h3>Which cloning protocol version is used by modern Luna 7 HSMs for universal cloning?</h3>
+<div class="options"><label class="option" id="label-6-0">
+<input type="radio" name="q6" value="0" onchange="selectAnswer(6,0)">
+<span class="letter">A</span><span>CPv1</span>
+</label><label class="option" id="label-6-1">
+<input type="radio" name="q6" value="1" onchange="selectAnswer(6,1)">
+<span class="letter">B</span><span>CPv2</span>
+</label><label class="option" id="label-6-2">
+<input type="radio" name="q6" value="2" onchange="selectAnswer(6,2)">
+<span class="letter">C</span><span>CPv3</span>
+</label><label class="option" id="label-6-3">
+<input type="radio" name="q6" value="3" onchange="selectAnswer(6,3)">
+<span class="letter">D</span><span>CPv4</span>
+</label></div>
+<div class="feedback" id="feedback-6"></div>
+</article><article class="question-card glass" id="qcard-7">
+<div class="question-top"><span class="qnum">Question 7</span><span class="status" id="status-7">Not answered</span></div>
+<h3>Can a V1 partition use Cloning Protocol version 1, CPv1?</h3>
+<div class="options"><label class="option" id="label-7-0">
+<input type="radio" name="q7" value="0" onchange="selectAnswer(7,0)">
+<span class="letter">A</span><span>Yes, always</span>
+</label><label class="option" id="label-7-1">
+<input type="radio" name="q7" value="1" onchange="selectAnswer(7,1)">
+<span class="letter">B</span><span>Yes, if enabled by the HSM SO</span>
+</label><label class="option" id="label-7-2">
+<input type="radio" name="q7" value="2" onchange="selectAnswer(7,2)">
+<span class="letter">C</span><span>No, CPv1 can never be ON for V1 partitions</span>
+</label><label class="option" id="label-7-3">
+<input type="radio" name="q7" value="3" onchange="selectAnswer(7,3)">
+<span class="letter">D</span><span>Only in FIPS mode</span>
+</label></div>
+<div class="feedback" id="feedback-7"></div>
+</article><article class="question-card glass" id="qcard-8">
+<div class="question-top"><span class="qnum">Question 8</span><span class="status" id="status-8">Not answered</span></div>
+<h3>What is the purpose of the partition clear command?</h3>
+<div class="options"><label class="option" id="label-8-0">
+<input type="radio" name="q8" value="0" onchange="selectAnswer(8,0)">
+<span class="letter">A</span><span>Deletes the partition completely</span>
+</label><label class="option" id="label-8-1">
+<input type="radio" name="q8" value="1" onchange="selectAnswer(8,1)">
+<span class="letter">B</span><span>Erases partition contents without deleting the partition</span>
+</label><label class="option" id="label-8-2">
+<input type="radio" name="q8" value="2" onchange="selectAnswer(8,2)">
+<span class="letter">C</span><span>Resets the entire HSM</span>
+</label><label class="option" id="label-8-3">
+<input type="radio" name="q8" value="3" onchange="selectAnswer(8,3)">
+<span class="letter">D</span><span>Clears only audit logs</span>
+</label></div>
+<div class="feedback" id="feedback-8"></div>
+</article><article class="question-card glass" id="qcard-9">
+<div class="question-top"><span class="qnum">Question 9</span><span class="status" id="status-9">Not answered</span></div>
+<h3>Which EFT function code is used for CVV Generation?</h3>
+<div class="options"><label class="option" id="label-9-0">
+<input type="radio" name="q9" value="0" onchange="selectAnswer(9,0)">
+<span class="letter">A</span><span>EE0801</span>
+</label><label class="option" id="label-9-1">
+<input type="radio" name="q9" value="1" onchange="selectAnswer(9,1)">
+<span class="letter">B</span><span>EE0802</span>
+</label><label class="option" id="label-9-2">
+<input type="radio" name="q9" value="2" onchange="selectAnswer(9,2)">
+<span class="letter">C</span><span>EE2002</span>
+</label><label class="option" id="label-9-3">
+<input type="radio" name="q9" value="3" onchange="selectAnswer(9,3)">
+<span class="letter">D</span><span>EE2064</span>
+</label></div>
+<div class="feedback" id="feedback-9"></div>
+</article><article class="question-card glass" id="qcard-10">
+<div class="question-top"><span class="qnum">Question 10</span><span class="status" id="status-10">Not answered</span></div>
+<h3>What does Decommissioning do to the HSM?</h3>
+<div class="options"><label class="option" id="label-10-0">
+<input type="radio" name="q10" value="0" onchange="selectAnswer(10,0)">
+<span class="letter">A</span><span>Disables network access only</span>
+</label><label class="option" id="label-10-1">
+<input type="radio" name="q10" value="1" onchange="selectAnswer(10,1)">
+<span class="letter">B</span><span>Deletes application keys but preserves roles</span>
+</label><label class="option" id="label-10-2">
+<input type="radio" name="q10" value="2" onchange="selectAnswer(10,2)">
+<span class="letter">C</span><span>Erases all partitions, roles, and cryptographic material</span>
+</label><label class="option" id="label-10-3">
+<input type="radio" name="q10" value="3" onchange="selectAnswer(10,3)">
+<span class="letter">D</span><span>Only resets HSM policies</span>
+</label></div>
+<div class="feedback" id="feedback-10"></div>
+</article><article class="question-card glass" id="qcard-11">
+<div class="question-top"><span class="qnum">Question 11</span><span class="status" id="status-11">Not answered</span></div>
+<h3>Which attribute must be set for a key to support Per-Key Authorization?</h3>
+<div class="options"><label class="option" id="label-11-0">
+<input type="radio" name="q11" value="0" onchange="selectAnswer(11,0)">
+<span class="letter">A</span><span>CKA_TOKEN</span>
+</label><label class="option" id="label-11-1">
+<input type="radio" name="q11" value="1" onchange="selectAnswer(11,1)">
+<span class="letter">B</span><span>CKA_PRIVATE</span>
+</label><label class="option" id="label-11-2">
+<input type="radio" name="q11" value="2" onchange="selectAnswer(11,2)">
+<span class="letter">C</span><span>CKA_AUTH_DATA</span>
+</label><label class="option" id="label-11-3">
+<input type="radio" name="q11" value="3" onchange="selectAnswer(11,3)">
+<span class="letter">D</span><span>CKA_MODIFIABLE</span>
+</label></div>
+<div class="feedback" id="feedback-11"></div>
+</article><article class="question-card glass" id="qcard-12">
+<div class="question-top"><span class="qnum">Question 12</span><span class="status" id="status-12">Not answered</span></div>
+<h3>In an HA group, what does the hagroup addmember command do for V1 partitions?</h3>
+<div class="options"><label class="option" id="label-12-0">
+<input type="radio" name="q12" value="0" onchange="selectAnswer(12,0)">
+<span class="letter">A</span><span>Deletes the SMK</span>
+</label><label class="option" id="label-12-1">
+<input type="radio" name="q12" value="1" onchange="selectAnswer(12,1)">
+<span class="letter">B</span><span>Clones the SMK from the primary member to the new member</span>
+</label><label class="option" id="label-12-2">
+<input type="radio" name="q12" value="2" onchange="selectAnswer(12,2)">
+<span class="letter">C</span><span>Creates a new random SMK on each member</span>
+</label><label class="option" id="label-12-3">
+<input type="radio" name="q12" value="3" onchange="selectAnswer(12,3)">
+<span class="letter">D</span><span>Disables synchronization</span>
+</label></div>
+<div class="feedback" id="feedback-12"></div>
+</article><article class="question-card glass" id="qcard-13">
+<div class="question-top"><span class="qnum">Question 13</span><span class="status" id="status-13">Not answered</span></div>
+<h3>What is the default lockout threshold for a Crypto Officer?</h3>
+<div class="options"><label class="option" id="label-13-0">
+<input type="radio" name="q13" value="0" onchange="selectAnswer(13,0)">
+<span class="letter">A</span><span>3 consecutive failed attempts</span>
+</label><label class="option" id="label-13-1">
+<input type="radio" name="q13" value="1" onchange="selectAnswer(13,1)">
+<span class="letter">B</span><span>5 consecutive failed attempts</span>
+</label><label class="option" id="label-13-2">
+<input type="radio" name="q13" value="2" onchange="selectAnswer(13,2)">
+<span class="letter">C</span><span>10 consecutive failed attempts</span>
+</label><label class="option" id="label-13-3">
+<input type="radio" name="q13" value="3" onchange="selectAnswer(13,3)">
+<span class="letter">D</span><span>15 consecutive failed attempts</span>
+</label></div>
+<div class="feedback" id="feedback-13"></div>
+</article><article class="question-card glass" id="qcard-14">
+<div class="question-top"><span class="qnum">Question 14</span><span class="status" id="status-14">Not answered</span></div>
+<h3>Which physical port is used for a local PED connection?</h3>
+<div class="options"><label class="option" id="label-14-0">
+<input type="radio" name="q14" value="0" onchange="selectAnswer(14,0)">
+<span class="letter">A</span><span>Ethernet port</span>
+</label><label class="option" id="label-14-1">
+<input type="radio" name="q14" value="1" onchange="selectAnswer(14,1)">
+<span class="letter">B</span><span>Serial console port</span>
+</label><label class="option" id="label-14-2">
+<input type="radio" name="q14" value="2" onchange="selectAnswer(14,2)">
+<span class="letter">C</span><span>USB port on the appliance front or back panel</span>
+</label><label class="option" id="label-14-3">
+<input type="radio" name="q14" value="3" onchange="selectAnswer(14,3)">
+<span class="letter">D</span><span>SFP port</span>
+</label></div>
+<div class="feedback" id="feedback-14"></div>
+</article><article class="question-card glass" id="qcard-15">
+<div class="question-top"><span class="qnum">Question 15</span><span class="status" id="status-15">Not answered</span></div>
+<h3>What is RSA blinding?</h3>
+<div class="options"><label class="option" id="label-15-0">
+<input type="radio" name="q15" value="0" onchange="selectAnswer(15,0)">
+<span class="letter">A</span><span>RSA key compression</span>
+</label><label class="option" id="label-15-1">
+<input type="radio" name="q15" value="1" onchange="selectAnswer(15,1)">
+<span class="letter">B</span><span>A technique to prevent timing attacks by adding random elements to RSA private-key operations</span>
+</label><label class="option" id="label-15-2">
+<input type="radio" name="q15" value="2" onchange="selectAnswer(15,2)">
+<span class="letter">C</span><span>A method for hiding the public exponent</span>
+</label><label class="option" id="label-15-3">
+<input type="radio" name="q15" value="3" onchange="selectAnswer(15,3)">
+<span class="letter">D</span><span>A key backup method</span>
+</label></div>
+<div class="feedback" id="feedback-15"></div>
+</article><article class="question-card glass" id="qcard-16">
+<div class="question-top"><span class="qnum">Question 16</span><span class="status" id="status-16">Not answered</span></div>
+<h3>Which command is used to join a new member to an existing cluster?</h3>
+<div class="options"><label class="option" id="label-16-0">
+<input type="radio" name="q16" value="0" onchange="selectAnswer(16,0)">
+<span class="letter">A</span><span>cluster add</span>
+</label><label class="option" id="label-16-1">
+<input type="radio" name="q16" value="1" onchange="selectAnswer(16,1)">
+<span class="letter">B</span><span>cluster member add</span>
+</label><label class="option" id="label-16-2">
+<input type="radio" name="q16" value="2" onchange="selectAnswer(16,2)">
+<span class="letter">C</span><span>cluster join member</span>
+</label><label class="option" id="label-16-3">
+<input type="radio" name="q16" value="3" onchange="selectAnswer(16,3)">
+<span class="letter">D</span><span>hagroup addmember</span>
+</label></div>
+<div class="feedback" id="feedback-16"></div>
+</article><article class="question-card glass" id="qcard-17">
+<div class="question-top"><span class="qnum">Question 17</span><span class="status" id="status-17">Not answered</span></div>
+<h3>Can objects be cloned from a higher-security FM partition to a standard non-FM partition?</h3>
+<div class="options"><label class="option" id="label-17-0">
+<input type="radio" name="q17" value="0" onchange="selectAnswer(17,0)">
+<span class="letter">A</span><span>No, never</span>
+</label><label class="option" id="label-17-1">
+<input type="radio" name="q17" value="1" onchange="selectAnswer(17,1)">
+<span class="letter">B</span><span>Yes, from FM-allowed to non-FM, but not vice versa</span>
+</label><label class="option" id="label-17-2">
+<input type="radio" name="q17" value="2" onchange="selectAnswer(17,2)">
+<span class="letter">C</span><span>Yes, in both directions</span>
+</label><label class="option" id="label-17-3">
+<input type="radio" name="q17" value="3" onchange="selectAnswer(17,3)">
+<span class="letter">D</span><span>Only when CPv1 is enabled</span>
+</label></div>
+<div class="feedback" id="feedback-17"></div>
+</article><article class="question-card glass" id="qcard-18">
+<div class="question-top"><span class="qnum">Question 18</span><span class="status" id="status-18">Not answered</span></div>
+<h3>Which PED key is required to recover a Backup HSM 7 from Secure Transport Mode, STM?</h3>
+<div class="options"><label class="option" id="label-18-0">
+<input type="radio" name="q18" value="0" onchange="selectAnswer(18,0)">
+<span class="letter">A</span><span>Blue SO PED key</span>
+</label><label class="option" id="label-18-1">
+<input type="radio" name="q18" value="1" onchange="selectAnswer(18,1)">
+<span class="letter">B</span><span>Red Domain PED key</span>
+</label><label class="option" id="label-18-2">
+<input type="radio" name="q18" value="2" onchange="selectAnswer(18,2)">
+<span class="letter">C</span><span>Purple SRK PED key</span>
+</label><label class="option" id="label-18-3">
+<input type="radio" name="q18" value="3" onchange="selectAnswer(18,3)">
+<span class="letter">D</span><span>Orange RPK PED key</span>
+</label></div>
+<div class="feedback" id="feedback-18"></div>
+</article><article class="question-card glass" id="qcard-19">
+<div class="question-top"><span class="qnum">Question 19</span><span class="status" id="status-19">Not answered</span></div>
+<h3>What is the maximum number of cloning domains a single partition can support?</h3>
+<div class="options"><label class="option" id="label-19-0">
+<input type="radio" name="q19" value="0" onchange="selectAnswer(19,0)">
+<span class="letter">A</span><span>One</span>
+</label><label class="option" id="label-19-1">
+<input type="radio" name="q19" value="1" onchange="selectAnswer(19,1)">
+<span class="letter">B</span><span>Two</span>
+</label><label class="option" id="label-19-2">
+<input type="radio" name="q19" value="2" onchange="selectAnswer(19,2)">
+<span class="letter">C</span><span>Three</span>
+</label><label class="option" id="label-19-3">
+<input type="radio" name="q19" value="3" onchange="selectAnswer(19,3)">
+<span class="letter">D</span><span>Five</span>
+</label></div>
+<div class="feedback" id="feedback-19"></div>
+</article><article class="question-card glass" id="qcard-20">
+<div class="question-top"><span class="qnum">Question 20</span><span class="status" id="status-20">Not answered</span></div>
+<h3>Which service must be enabled to use the REST API for administration?</h3>
+<div class="options"><label class="option" id="label-20-0">
+<input type="radio" name="q20" value="0" onchange="selectAnswer(20,0)">
+<span class="letter">A</span><span>SSH service on port 22</span>
+</label><label class="option" id="label-20-1">
+<input type="radio" name="q20" value="1" onchange="selectAnswer(20,1)">
+<span class="letter">B</span><span>NTLS on port 1792</span>
+</label><label class="option" id="label-20-2">
+<input type="radio" name="q20" value="2" onchange="selectAnswer(20,2)">
+<span class="letter">C</span><span>Webserver service on port 8443</span>
+</label><label class="option" id="label-20-3">
+<input type="radio" name="q20" value="3" onchange="selectAnswer(20,3)">
+<span class="letter">D</span><span>SNMP service on port 161</span>
+</label></div>
+<div class="feedback" id="feedback-20"></div>
+</article><article class="question-card glass" id="qcard-21">
+<div class="question-top"><span class="qnum">Question 21</span><span class="status" id="status-21">Not answered</span></div>
+<h3>True or False: Backup HSM 7 can be configured for FIPS compliance using HSM Policy 12.</h3>
+<div class="options"><label class="option" id="label-21-0">
+<input type="radio" name="q21" value="0" onchange="selectAnswer(21,0)">
+<span class="letter">A</span><span>True</span>
+</label><label class="option" id="label-21-1">
+<input type="radio" name="q21" value="1" onchange="selectAnswer(21,1)">
+<span class="letter">B</span><span>False</span>
+</label></div>
+<div class="feedback" id="feedback-21"></div>
+</article><article class="question-card glass" id="qcard-22">
+<div class="question-top"><span class="qnum">Question 22</span><span class="status" id="status-22">Not answered</span></div>
+<h3>What is the purpose of the sysconf regenCert command?</h3>
+<div class="options"><label class="option" id="label-22-0">
+<input type="radio" name="q22" value="0" onchange="selectAnswer(22,0)">
+<span class="letter">A</span><span>Regenerates client certificates</span>
+</label><label class="option" id="label-22-1">
+<input type="radio" name="q22" value="1" onchange="selectAnswer(22,1)">
+<span class="letter">B</span><span>Generates a new unique server certificate for the appliance</span>
+</label><label class="option" id="label-22-2">
+<input type="radio" name="q22" value="2" onchange="selectAnswer(22,2)">
+<span class="letter">C</span><span>Restores the factory certificate</span>
+</label><label class="option" id="label-22-3">
+<input type="radio" name="q22" value="3" onchange="selectAnswer(22,3)">
+<span class="letter">D</span><span>Creates a partition certificate</span>
+</label></div>
+<div class="feedback" id="feedback-22"></div>
+</article><article class="question-card glass" id="qcard-23">
+<div class="question-top"><span class="qnum">Question 23</span><span class="status" id="status-23">Not answered</span></div>
+<h3>Which EFT function code is used to calculate a Data Authentication Code, DAC?</h3>
+<div class="options"><label class="option" id="label-23-0">
+<input type="radio" name="q23" value="0" onchange="selectAnswer(23,0)">
+<span class="letter">A</span><span>EE0802</span>
+</label><label class="option" id="label-23-1">
+<input type="radio" name="q23" value="1" onchange="selectAnswer(23,1)">
+<span class="letter">B</span><span>EE2002</span>
+</label><label class="option" id="label-23-2">
+<input type="radio" name="q23" value="2" onchange="selectAnswer(23,2)">
+<span class="letter">C</span><span>EE2064</span>
+</label><label class="option" id="label-23-3">
+<input type="radio" name="q23" value="3" onchange="selectAnswer(23,3)">
+<span class="letter">D</span><span>EE2010</span>
+</label></div>
+<div class="feedback" id="feedback-23"></div>
+</article><article class="question-card glass" id="qcard-24">
+<div class="question-top"><span class="qnum">Question 24</span><span class="status" id="status-24">Not answered</span></div>
+<h3>In SKS, what happens if an application tries to use a blob whose encrypting SMK has been deleted?</h3>
+<div class="options"><label class="option" id="label-24-0">
+<input type="radio" name="q24" value="0" onchange="selectAnswer(24,0)">
+<span class="letter">A</span><span>A new SMK is generated automatically</span>
+</label><label class="option" id="label-24-1">
+<input type="radio" name="q24" value="1" onchange="selectAnswer(24,1)">
+<span class="letter">B</span><span>The blob is decrypted using the partition domain</span>
+</label><label class="option" id="label-24-2">
+<input type="radio" name="q24" value="2" onchange="selectAnswer(24,2)">
+<span class="letter">C</span><span>The blob cannot be decrypted and the key is lost</span>
+</label><label class="option" id="label-24-3">
+<input type="radio" name="q24" value="3" onchange="selectAnswer(24,3)">
+<span class="letter">D</span><span>The blob is moved to backup storage</span>
+</label></div>
+<div class="feedback" id="feedback-24"></div>
+</article><article class="question-card glass" id="qcard-25">
+<div class="question-top"><span class="qnum">Question 25</span><span class="status" id="status-25">Not answered</span></div>
+<h3>Which command calculates HSM utilization over a specific interval?</h3>
+<div class="options"><label class="option" id="label-25-0">
+<input type="radio" name="q25" value="0" onchange="selectAnswer(25,0)">
+<span class="letter">A</span><span>hsm status monitor</span>
+</label><label class="option" id="label-25-1">
+<input type="radio" name="q25" value="1" onchange="selectAnswer(25,1)">
+<span class="letter">B</span><span>hsm performance show</span>
+</label><label class="option" id="label-25-2">
+<input type="radio" name="q25" value="2" onchange="selectAnswer(25,2)">
+<span class="letter">C</span><span>hsm information monitor</span>
+</label><label class="option" id="label-25-3">
+<input type="radio" name="q25" value="3" onchange="selectAnswer(25,3)">
+<span class="letter">D</span><span>hsm utilization show</span>
+</label></div>
+<div class="feedback" id="feedback-25"></div>
+</article></section>
+
+<div class="actions glass">
+<button class="primary" onclick="submitQuiz()">Submit Quiz</button>
+<button class="secondary" onclick="resetQuiz()">Reset Quiz</button>
+</div>
+</main>
+
+<script>
+const answers=[1,1,2,2,1,3,2,1,1,2,2,1,2,2,1,1,1,2,2,2,1,1,1,2,2];
+const explanations=['False. The HSM Security Officer creates and administers the HSM-level container, while the Partition Security Officer manages the application partition contents.','Firmware 7.7.0 introduced the V0/V1 partition distinction.','Enabling Functionality Modules removes the HSM from FIPS compliance.','The start position is defined as Offset 3 in the request content.','The command is hsm ped vector init.','Modern Luna 7 HSMs use Cloning Protocol version 4, CPv4, for universal cloning.','No. CPv1 can never be ON for V1 partitions.','It erases the contents of a partition without deleting the partition itself.','EE0802 is used for CVV Generation.','Decommissioning erases all partitions, roles, and cryptographic material.','CKA_AUTH_DATA must be set for Per-Key Authorization.','For V1 partitions, it clones the SMK from the primary member to the new member.','The default lockout threshold is 10 consecutive failed attempts.','A local PED connects through a USB port on the appliance front or back panel.','RSA blinding helps prevent timing attacks by introducing randomization into RSA private-key operations.','The command is cluster member add.','Yes. Cloning is permitted from FM-allowed to non-FM, but not vice versa.','The Purple SRK PED key is required.','A single partition can support up to three different cloning domains.','The webserver service on port 8443 must be enabled.','False. Policy 12 does not apply. Policy 55 is used instead.','It generates a new unique server certificate for the appliance.','EE2002 is used to calculate a Data Authentication Code.','The blob cannot be decrypted. Without the encrypting SMK, the key is lost.','The command is hsm information monitor.'];
+let submitted=false;
+
+function selectAnswer(q,choice){
+ if(submitted) return;
+ document.getElementById('status-'+q).textContent='Answered';
+ updateProgress();
+}
+
+function updateProgress(){
+ let n=0;
+ for(let i=1;i<=answers.length;i++) if(document.querySelector('input[name="q'+i+'"]:checked')) n++;
+ document.getElementById('answeredText').textContent=n+' of '+answers.length+' answered';
+ let p=Math.round(n/answers.length*100);
+ document.getElementById('progressPct').textContent=p+'%';
+ document.getElementById('progressBar').style.width=p+'%';
+}
+
+function submitQuiz(){
+ let score=0;
+ submitted=true;
+ for(let i=1;i<=answers.length;i++){
+   const selected=document.querySelector('input[name="q'+i+'"]:checked');
+   const correct=answers[i-1];
+   const labels=document.querySelectorAll('#qcard-'+i+' .option');
+   labels.forEach((l,j)=>{ if(j===correct) l.classList.add('correct'); });
+   const fb=document.getElementById('feedback-'+i);
+   fb.style.display='block';
+   if(selected){
+      const picked=Number(selected.value);
+      if(picked===correct){
+        score++;
+        document.getElementById('status-'+i).textContent='Correct';
+        fb.innerHTML='<strong>Correct.</strong> '+explanations[i-1];
+      } else {
+        labels[picked].classList.add('wrong');
+        document.getElementById('status-'+i).textContent='Incorrect';
+        fb.innerHTML='<strong>Incorrect.</strong> '+explanations[i-1];
+      }
+   } else {
+      document.getElementById('status-'+i).textContent='Not answered';
+      fb.innerHTML='<strong>Not answered.</strong> '+explanations[i-1];
+   }
+   document.querySelectorAll('input[name="q'+i+'"]').forEach(x=>x.disabled=true);
+ }
+ const pct=Math.round(score/answers.length*100);
+ document.getElementById('scoreText').textContent=score+'/'+answers.length+' ('+pct+'%)';
+ let msg=pct>=90?'Excellent. Strong command of Luna HSM administration and advanced concepts.':
+         pct>=75?'Good result. Review the highlighted topics to close the remaining gaps.':
+         pct>=60?'Solid foundation. Revisit partition, cloning, HA, policy, and command-specific topics.':
+         'More review recommended. Use the explanations below each question as your revision guide.';
+ document.getElementById('scoreMessage').textContent=msg;
+ const box=document.getElementById('resultBox');
+ box.style.display='block';
+ box.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function resetQuiz(){
+ submitted=false;
+ document.querySelectorAll('input[type="radio"]').forEach(x=>{x.checked=false;x.disabled=false});
+ document.querySelectorAll('.option').forEach(x=>x.classList.remove('correct','wrong'));
+ document.querySelectorAll('.feedback').forEach(x=>{x.style.display='none';x.innerHTML=''});
+ for(let i=1;i<=answers.length;i++) document.getElementById('status-'+i).textContent='Not answered';
+ document.getElementById('resultBox').style.display='none';
+ updateProgress();
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
