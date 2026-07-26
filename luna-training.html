@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luna HSM Training | Pratyush Saxena</title>
+<link rel="stylesheet" href="templatemo-glossy-touch.css">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:#fff;background:linear-gradient(135deg,#071426,#102a43,#12395a);font-family:Arial,sans-serif;min-height:100vh}
+.bg-shapes{position:fixed;inset:0;z-index:-1;overflow:hidden}
+.shape{position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.05)}
+.shape:nth-child(1){top:-100px;left:-80px} .shape:nth-child(2){right:-120px;top:25%}
+.shape:nth-child(3){bottom:-100px;left:20%} .shape:nth-child(4){left:-150px;top:60%}
+.container{width:min(1180px,92%);margin:auto}
+.glass{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.17);box-shadow:0 12px 35px rgba(0,0,0,.22);backdrop-filter:blur(14px);border-radius:20px}
+header{padding:20px 0}
+nav{display:flex;align-items:center;justify-content:space-between;padding:15px 20px;gap:20px}
+.logo{display:flex;align-items:center;gap:11px;font-size:19px;font-weight:700;cursor:pointer}
+.logo-icon{font-size:27px}
+.nav-links{display:flex;gap:18px;flex-wrap:wrap}
+.nav-links a{color:#fff;text-decoration:none;opacity:.82}
+.nav-links a:hover{opacity:1}
+.hero{padding:40px;margin:10px 0 22px;display:grid;grid-template-columns:1.5fr .8fr;gap:30px;align-items:center}
+.kicker,.eyebrow{font-size:12px;letter-spacing:1.6px;text-transform:uppercase;font-weight:700;opacity:.7}
+.hero h1{font-size:clamp(34px,5vw,56px);margin:9px 0 14px}
+.hero p{line-height:1.7;max-width:780px;opacity:.88}
+.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{padding:20px;text-align:center;background:rgba(255,255,255,.07);border-radius:16px}
+.stat strong{display:block;font-size:28px;margin-bottom:5px}
+.module-nav{padding:15px;margin-bottom:34px;display:flex;gap:10px;overflow:auto}
+.module-tab{white-space:nowrap;border:1px solid rgba(255,255,255,.17);background:rgba(255,255,255,.08);color:#fff;border-radius:12px;padding:11px 14px;cursor:pointer}
+.module-tab:hover{background:rgba(255,255,255,.16)}
+.training-section{padding:18px 0 38px;scroll-margin-top:20px}
+.section-heading{margin-bottom:18px}
+.section-heading h2{font-size:30px;margin:7px 0}
+.lesson-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+.lesson-card{padding:23px;transition:.2s}
+.lesson-card:hover{transform:translateY(-3px)}
+.slide-badge{display:inline-block;padding:6px 10px;border-radius:20px;background:rgba(255,255,255,.12);font-size:12px;font-weight:700}
+.lesson-card h3{font-size:20px;margin:14px 0}
+.lesson-card ul{padding-left:20px;margin:0}
+.lesson-card li{margin:9px 0;line-height:1.5;opacity:.9}
+.assessment{padding:30px;margin:8px 0 45px;display:flex;justify-content:space-between;gap:25px;align-items:center}
+.assessment h2{margin:5px 0 10px}
+.assessment p{line-height:1.6;opacity:.85}
+.cta{display:inline-block;padding:13px 20px;background:#fff;color:#102a43;border-radius:12px;text-decoration:none;font-weight:700;white-space:nowrap}
+footer{padding:0 0 35px;text-align:center;opacity:.65;font-size:13px}
+@media(max-width:800px){.hero{grid-template-columns:1fr}.lesson-grid{grid-template-columns:1fr}.assessment{align-items:flex-start;flex-direction:column}nav{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="bg-shapes"><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div></div>
+
+<header>
+<div class="container">
+<nav class="glass">
+<div class="logo" onclick="window.location.href='index.html'"><div class="logo-icon">🔐</div><span>Pratyush Saxena</span></div>
+<div class="nav-links">
+<a href="index.html">Home</a>
+<a href="index.html#projects">Projects</a>
+<a href="#module-1">Training Content</a>
+<a href="luna_hsm_25_question_mcq.html">MCQ</a>
+</div>
+</nav>
+</div>
+</header>
+
+<main class="container">
+<section class="hero glass">
+<div>
+<div class="kicker">Thales Luna Network HSM 7</div>
+<h1>Luna HSM Training</h1>
+<p>A structured learning program covering HSM fundamentals, the K7 cryptographic engine, Luna architecture, partitions, PED authentication, appliance administration, network configuration, security controls and practical LunaSH exercises.</p>
+</div>
+<div class="hero-stats">
+<div class="stat"><strong>Day 1</strong><span>Foundation</span></div>
+<div class="stat"><strong>50</strong><span>Training Slides</span></div>
+<div class="stat"><strong>3</strong><span>Core Modules</span></div>
+<div class="stat"><strong>5</strong><span>Hands-on Labs</span></div>
+</div>
+</section>
+
+<div class="module-nav glass">
+<button class="module-tab" onclick="scrollToSection('module-1')">HSM and Cryptography Fundamentals</button><button class="module-tab" onclick="scrollToSection('module-2')">Luna HSM Architecture</button><button class="module-tab" onclick="scrollToSection('module-3')">Appliance Administration</button><button class="module-tab" onclick="scrollToSection('module-4')">Day 1 Hands-on: Lab Content</button><button class="module-tab" onclick="scrollToSection('module-5')">Day 1 Conclusion</button>
+<button class="module-tab" onclick="window.location.href='luna_hsm_25_question_mcq.html'">📝 Training MCQ</button>
+</div>
+
+
+    <section class="training-section" id="module-1">
+      <div class="section-heading">
+        <span class="eyebrow">DAY 1</span>
+        <h2>Module 1: HSM and Cryptography Fundamentals</h2>
+      </div>
+      <div class="lesson-grid">
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 1</div>
+          <h3>Module 1 Learning Objectives</h3>
+          <ul><li>Understand the physical and logical security boundaries of the Luna Network HSM 7</li><li>.</li><li>Master the difference between hardware-based roots of trust and software-based keystores [Fundamentals Slide 5].</li><li>Define the role of HSMs in meeting regulatory standards like FIPS 140, Common Criteria, and eIDAS</li><li>.</li><li>Overview of the K7 Cryptographic Engine architecture [Fundamentals Slide 7].</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 2</div>
+          <h3>What is an HSM?</h3>
+          <ul><li>A dedicated, tamper-resistant hardware device for cryptographic processing</li><li>.</li><li>Root of Trust: Provides a single, secure point of origin for all cryptographic keys in an organization.</li><li>Validation: FIPS 140-2 Level 3 validated, ensuring physical tamper evidence and logical separation of sensitive data [1, Fundamentals Slide 7].</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 3</div>
+          <h3>Why Organisations Use HSMs</h3>
+          <ul><li>Regulatory Compliance: Meeting mandates like FIPS 140, PCI-DSS, and eIDAS</li><li>.</li><li>Separation of Duties: Enforces a model where appliance administrators cannot access cryptographic keys</li><li>.</li><li>Secure Key Lifecycle: Ensures keys are generated using a hardware-based Random Number Generator (RNG) and never exist in the clear outside the module [Fundamentals Slide 7].</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 4</div>
+          <h3>Hardware Security Boundary: The K7 Engine</h3>
+          <ul><li>The Luna K7 Cryptographic Engine is the internal hardware module</li><li>.</li><li>It is physically and logically distinct from the host appliance and its general-purpose Linux OS</li><li>.</li><li>Design: Sensitive objects like private keys are never stored unencrypted within the module [Fundamentals Slide 7].</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 5</div>
+          <h3>Protecting Keys at Rest (MTK and KEK)</h3>
+          <ul><li>Master Tamper Key (MTK): An internal hardware key that encrypts all internal data. It is destroyed instantly if physical intrusion or environmental excursions (over-temp/voltage) are detected</li><li>.</li><li>Key Encryption Key (KEK): A global key that wraps all user objects, partition structures, and cloning vectors</li><li>. It is deleted if the HSM is decommissioned</li><li>.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 6</div>
+          <h3>Cryptographic Math in Hardware</h3>
+          <ul><li>All math occurs in volatile working memory within the K7 engine.</li><li>Decrypted keys exist only for the duration of a session and &quot;evaporate&quot; if power is lost, preventing &quot;cold boot&quot; or memory scraping attacks common in software [Slide 6, 9].</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 7</div>
+          <h3>Symmetric vs. Asymmetric Cryptography</h3>
+          <ul><li>Symmetric: Uses the same key for encryption and decryption (AES, DES, 3DES). AES-256 is the standard for high-performance data encryption</li><li>.</li><li>Asymmetric: Uses a public/private key pair (RSA, ECC).</li><li>Signatures: Support for RSA (up to 4096-bit) and ECC for digital signatures and non-repudiation [Fundamentals Slide 7].</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 8</div>
+          <h3>Hashing and Digital Signatures</h3>
+          <ul><li>Hashing: Creates a unique message digest (MD5, SHA-1, SHA-2) for integrity [EFT Guide 66].</li><li>Signatures: Combining hashing with asymmetric keys to prove the origin of a message or file.</li><li>Luna 7 supports high-performance signing, often exceeding 600 RSA-2048 operations per second.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 9</div>
+          <h3>HSM vs. Software Keystore</h3>
+          <ul><li>Isolation: Software keystores share memory with the OS and other apps; Luna HSM provides a &quot;Chinese Wall&quot; between the appliance and the module</li><li>.</li><li>Extraction: In a software keystore, a compromised admin can copy the key file. In a Luna HSM, keys are marked always-sensitive and never-extractable</li><li>.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 10</div>
+          <h3>FIPS 140 Concepts and Approved Mode</h3>
+          <ul><li>HSM Policy 12: Controls FIPS 140 approved configuration. When OFF, the HSM only permits NIST-sanctioned algorithms</li><li>.</li><li>Remapping: RSA PKCS key generation is automatically remapped to FIPS 186-3/4 compliant methods [HSM Guide 46, Slide 35].</li><li>Self-Tests: The HSM performs extensive power-up self-tests to ensure firmware integrity.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 11</div>
+          <h3>Luna Network HSM Use Cases</h3>
+          <ul><li>PKI: Root-of-trust for internal or public Certificate Authorities.</li><li>Payments: Secure PIN management and ATM transaction processing (EFT functions) [66, EFT Guide].</li><li>Cloud: Partitioning allows &quot;HSM-as-a-Service,&quot; where multiple clients share one appliance securely</li><li>.</li></ul>
+        </article></div>
+    </section>
+    <section class="training-section" id="module-2">
+      <div class="section-heading">
+        <span class="eyebrow">DAY 1</span>
+        <h2>Module 2: Luna HSM Architecture</h2>
+      </div>
+      <div class="lesson-grid">
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 12</div>
+          <h3>Module 2 Learning Objectives</h3>
+          <ul><li>Visualize the layered Luna architecture (Appliance vs. HSM vs. Partition) [Fundamentals Slide 5].</li><li>Understand the administrative roles (SO, PSO, CO, CU) [Fundamentals Slide 11].</li><li>Differentiate between traditional (V0) and modern (V1) partitions</li><li>.</li><li>Explain Multifactor Quorum (PED) authentication and Cloning Domains</li><li>.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 13</div>
+          <h3>The Layered Architecture Model</h3>
+          <ul><li>Layer 1: The hardened physical appliance (Linux host, networking, power) [Fundamentals Slide 5].</li><li>Layer 2: The Luna K7 Cryptographic Engine (the &quot;Vault&quot;) [1, Fundamentals Slide 5].</li><li>Layer 3: Logical Application Partitions (the &quot;Safe Deposit Boxes&quot;) [Fundamentals Slide 5].</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 14</div>
+          <h3>Appliance vs. HSM Concepts</h3>
+          <ul><li>Appliance Administration: Networking, users, logs, and updates. Executed in LunaSH</li><li>.</li><li>HSM Administration: Keys, partitions, policies, and crypto operations. Executed via the HSM SO or PSO roles</li><li>.</li><li>Independence: An appliance admin cannot see or use keys inside an HSM partition</li><li>.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 15</div>
+          <h3>HSM Hardware Components</h3>
+          <ul><li>Redundant Power: Dual hot-swappable power supplies [Appliance Guide].</li><li>Connectivity: 4x 1G Ethernet ports (eth0-eth3) with bonding support</li><li>.</li><li>Serial Port: RJ45 console for initial configuration [Appliance Slide 14].</li><li>USB Ports: Front and back ports for Luna PED connection [Fundamentals Slide 7].</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 16</div>
+          <h3>HSM Partitions: The &quot;Virtual HSM&quot;</h3>
+          <ul><li>The HSM is divided into multiple independent containers called partitions</li><li>.</li><li>Each partition acts as its own virtual HSM with unique login credentials, policies, and key storage [Fundamentals Slide 5].</li><li>Administrative Partition: The global space owned by the HSM SO.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 17</div>
+          <h3>Partition Architecture: Version 0 (V0)</h3>
+          <ul><li>Traditional Model: &quot;Keys Always in Hardware&quot;</li><li>.</li><li>All objects are stored strictly in the internal memory of the HSM engine.</li><li>Compatibility: Designed for legacy applications that rely on standard cloning protocols</li><li>.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 18</div>
+          <h3>Partition Architecture: Version 1 (V1)</h3>
+          <ul><li>Modern Model: Supports Scalable Key Storage (SKS)</li><li>.</li><li>Allows for millions of keys by extracting them as encrypted blobs</li><li>.</li><li>Compliance: Required for eIDAS-compliant Per-Key Authorization (PKA)</li><li>.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 19</div>
+          <h3>Scalable Key Storage (SKS) and Master Keys</h3>
+          <ul><li>SKS Master Key (SMK): A unique symmetric key bound to a V1 partition that never leaves the HSM</li><li>.</li><li>Blobs: Keys are generated in hardware and extracted as secure AES-256-GCM encrypted blobs (up to 64KB)</li><li>.</li><li>Operational Flow: Blobs are stored in external databases and temporarily inserted into HSM volatile memory for use</li><li>.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 20</div>
+          <h3>HSM Security Officer (HSM SO)</h3>
+          <ul><li>Global Authority: The master administrator of the module</li><li>.</li><li>Tasks: Initializes the HSM, sets global security policies, and creates the partition containers</li><li>.</li><li>Authentication: Authenticates via the Blue HSM SO PED key</li><li>.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 21</div>
+          <h3>Partition Security Officer (PSO)</h3>
+          <ul><li>Partition Authority: The administrator of a specific application partition</li><li>.</li><li>Tasks: Initializes the partition roles (CO/CU) and sets partition-level policies</li><li>.</li><li>Authentication: Authenticates via a distinct Blue Partition SO PED key</li><li>.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 22</div>
+          <h3>Crypto Officer (CO) and Crypto User (CU)</h3>
+          <ul><li>Crypto Officer: Full operational control; can generate, use, and delete keys within their partition</li><li>.</li><li>Crypto User: Restricted read-only role; can sign or encrypt but cannot manage objects</li><li>.</li><li>Authentication: Authenticates via Black (CO) or Gray (CU) keys</li><li>.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 23</div>
+          <h3>Independent Role: The Auditor</h3>
+          <ul><li>Responsible for managing HSM security logs</li><li>.</li><li>Isolation: The Auditor has no access to cryptographic keys or any other HSM services</li><li>.</li><li>Authentication: Authenticates via the White Auditor PED key</li><li>.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 24</div>
+          <h3>Role Separation and Governance</h3>
+          <ul><li>Administrative roles (SO/PSO) perform provisioning</li><li>.</li><li>Operational roles (CO/CU) perform cryptography</li><li>.</li><li>The &quot;recover&quot; appliance user can access system logs but not HSM secrets</li><li>.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 25</div>
+          <h3>Authentication: Password vs. PED (Quorum)</h3>
+          <ul><li>Password: Uses alphanumeric strings (FIPS 140-2 Level 3 equivalent)</li><li>.</li><li>PED (Multifactor Quorum): Uses physical USB PED keys and a &quot;Trusted Path&quot; display</li><li>.</li><li>Security: PED authentication prevents secrets from ever appearing on a computer keyboard or screen</li><li>.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 26</div>
+          <h3>Luna PED Concepts and Hardware</h3>
+          <ul><li>Connects to appliance USB ports [Fundamentals Slide 7].</li><li>Modes: Local PED (physical connection) vs. Remote PED (network connection via Orange RPV key)</li><li>.</li><li>Secure display for M-of-N assembly and PIN entry [Fundamentals Slide 7].</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 27</div>
+          <h3>Shared Secret PED Keys (M-of-N)</h3>
+          <ul><li>Concept: Splitting a role secret across multiple physical keys (N)</li><li>.</li><li>Quorum: A minimum number (M) must be present to authenticate (e.g., 3-of-5).</li><li>Benefit: Enforces Dual Control, preventing a single person from misusing the HSM.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 28</div>
+          <h3>Summary of PED Key Colors</h3>
+          <ul><li>Blue: SO/PSO Administrative Secrets</li><li>.</li><li>Red: Cloning Domain (Security boundary)</li><li>.</li><li>Black: Crypto Officer operational secret</li><li>.</li><li>White: Auditor role oversight</li><li>.</li><li>Orange: Remote PED Vector (RPV)</li><li>.</li><li>Purple: Secure Recovery Key (SRK) for Backup HSM</li><li>.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 29</div>
+          <h3>Domains and Cloning Domains</h3>
+          <ul><li>The Perimeter: A Cloning Domain (Red key) cryptographically defines which partitions can talk to each other</li><li>.</li><li>Requirement: Objects can only be cloned or moved if the source and target share the identical domain</li><li>.</li><li>Extended Domains: Firmware 7.8.0+ supports up to three domains per partition [Fundamentals Slide 12].</li></ul>
+        </article></div>
+    </section>
+    <section class="training-section" id="module-3">
+      <div class="section-heading">
+        <span class="eyebrow">DAY 1</span>
+        <h2>Module 3: Appliance Administration</h2>
+      </div>
+      <div class="lesson-grid">
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 30</div>
+          <h3>Module 3 Learning Objectives</h3>
+          <ul><li>Verify hardware integrity and establish console access [8, Module 1 Plan].</li><li>Configure network interfaces, bonding, and DNS</li><li>.</li><li>Manage appliance users and hardened access via LunaSH</li><li>.</li><li>Administer time services (NTP) and appliance certificates</li><li>.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 31</div>
+          <h3>Physical Installation Considerations</h3>
+          <ul><li>Tamper Seals: Verify the two seals on the unit against Advanced Shipping Notifications. Check for &quot;ALERT&quot; markings [Module 1 Plan].</li><li>Power: Redundant power to independent circuits.</li><li>Airflow: Standard 19-inch rack mounting with front-to-back airflow.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 32</div>
+          <h3>Initial Appliance Access</h3>
+          <ul><li>Mandatory: First-time setup must be via a serial RJ45 connection [Appliance Slide 14, 8].</li><li>Settings: 115200 baud, 8 bits, No parity, 1 stop bit [Appliance Guide 8].</li><li>Login: Default appliance account is admin [Appliance Slide 14].</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 33</div>
+          <h3>Hardened OS and Luna Shell (LunaSH)</h3>
+          <ul><li>The appliance runs a custom Linux kernel</li><li>.</li><li>Direct shell (root) access is disabled. All administration is through the LunaSH command set</li><li>.</li><li>Queueing: Commands are executed sequentially to protect module performance.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 34</div>
+          <h3>Appliance Users and Privileges</h3>
+          <ul><li>Admin: Full appliance management (networking, user management, service restarts)</li><li>.</li><li>Operator: Limited maintenance; cannot reset passwords or delete logs</li><li>.</li><li>Monitor: Read-only access to view appliance status and settings</li><li>.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 35</div>
+          <h3>Network Interface Configuration</h3>
+          <ul><li>Set static IP: network interface static -device eth0 -ip &lt;IP&gt; -netmask &lt;Mask&gt; -gateway &lt;GW&gt; [73, Appliance Artifact].</li><li>Support for 1G and 10G interfaces (eth0-eth3) [Appliance Slide 2].</li><li>IPv6 is supported with specific configuration constraints</li><li>.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 36</div>
+          <h3>Interface Bonding for Redundancy</h3>
+          <ul><li>Combine physical ports into a single logical bond0 (eth0/eth1) or bond1 (eth2/eth3)</li><li>.</li><li>Command: network interface bonding config -name bond0 -ip &lt;IP&gt; ...</li><li>.</li><li>Modes: Default is Mode 1 (Active-Backup); LACP (802.3ad) requires firmware 7.8.4+ and switch support</li><li>.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 37</div>
+          <h3>DNS and Service Binding</h3>
+          <ul><li>Add name servers: network dns add nameserver &lt;IP&gt; [72, Appliance Artifact].</li><li>Hardening: Use ntls bind or sysconf ssh to restrict traffic to specific physical or bonded interfaces</li><li>.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 38</div>
+          <h3>Time Governance: NTP</h3>
+          <ul><li>Critical for ensuring audit log timestamps and certificate validity are accurate</li><li>.</li><li>Add server: sysconf ntp addserver &lt;IP&gt; [77, Appliance Artifact].</li><li>Sync: sysconf ntp ntpdate &lt;IP&gt;</li><li>.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 39</div>
+          <h3>HSM Time Synchronization</h3>
+          <ul><li>Policy 57: Enabled in Firmware 7.8.0+, allows the HSM clock to automatically sync with the appliance every 24 hours [Policy 57 Note].</li><li>Prevents &quot;clock drift&quot; between the secure module and the logging host.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 40</div>
+          <h3>System Status and Health Checks</h3>
+          <ul><li>hsm show: Displays serial numbers, firmware version, and global policies</li><li>.</li><li>hsm status: Displays the current operational state (OK, Tamper, STM) [Hands-on Plan].</li><li>network show: Verifies current IP and DNS settings [72, Hands-on Plan].</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 41</div>
+          <h3>Appliance Certificates (server.pem)</h3>
+          <ul><li>A unique certificate used for secure Network Trust Link (NTLS) client connections.</li><li>Command: sysconf regenCert creates a new identity for the appliance [10, 75, Appliance Artifact].</li><li>Supports RSA 4096-bit and ECC secp384r1.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 42</div>
+          <h3>SSH Security and Ciphers</h3>
+          <ul><li>Limit available ciphers: sysconf ssh ciphers set</li><li>.</li><li>Best practice: Regenerate fresh public keys for appliance access regularly</li><li>.</li><li>Mandatory use of secure MAC algorithms like hmac-sha2-512.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 43</div>
+          <h3>Firmware and License Management</h3>
+          <ul><li>Capabilities are factory-set (e.g., maximum partitions)</li><li>.</li><li>Licenses: Applied via sysconf license to unlock more partitions or Functionality Modules (FMs) [Appliance Guide 195, 37, 38].</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 44</div>
+          <h3>Secure Transport Mode (STM)</h3>
+          <ul><li>Prevents man-in-the-middle attacks during shipment</li><li>.</li><li>Locked State: The HSM is unusable until a factory-provided Random User String and Verification String are entered</li><li>.</li><li>Recovered via the hsm stm recover command [Hands-on Plan].</li></ul>
+        </article></div>
+    </section>
+    <section class="training-section" id="module-4">
+      <div class="section-heading">
+        <span class="eyebrow">DAY 1</span>
+        <h2>Day 1 Hands-on: Lab Content</h2>
+      </div>
+      <div class="lesson-grid">
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 45</div>
+          <h3>Lab Exercise 1: Connectivity</h3>
+          <ul><li>Goal: Establish physical console access.</li><li>Establishing the RJ45 Serial Connection.</li><li>Logging in as admin.</li><li>Executing user show to see default roles.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 46</div>
+          <h3>Lab Exercise 2: Network Setup</h3>
+          <ul><li>Goal: Place the appliance on the production network.</li><li>network interface static -device eth0 -ip 192.168.1.10 -netmask 255.255.255.0 -gateway 192.168.1.1.</li><li>network dns add nameserver 8.8.8.8.</li><li>sysconf ntp addserver 10.10.10.5.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 47</div>
+          <h3>Lab Exercise 3: Identity Generation</h3>
+          <ul><li>Goal: Create a unique identity for the unit.</li><li>sysconf regenCert.</li><li>Verification: ntls show to see the new certificate hash.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 48</div>
+          <h3>Lab Exercise 4: HSM Initialization (The &quot;Hard Init&quot;)</h3>
+          <ul><li>Goal: Establish the root of trust and HSM SO role.</li><li>hsm init -label CorporateHSM.</li><li>Observation: The Luna PED will prompt for the Blue HSM SO key and the Red HSM Domain key.</li></ul>
+        </article>
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 49</div>
+          <h3>Lab Exercise 5: Partition Provisioning</h3>
+          <ul><li>Goal: Create a container for client applications.</li><li>partition create -partition WebApp_Vault -version 0.</li><li>Observation: The HSM SO creates the &quot;safe deposit box&quot; but cannot see the &quot;contents&quot; within it.</li></ul>
+        </article></div>
+    </section>
+    <section class="training-section" id="module-5">
+      <div class="section-heading">
+        <span class="eyebrow">DAY 1</span>
+        <h2>Day 1 Conclusion</h2>
+      </div>
+      <div class="lesson-grid">
+        <article class="lesson-card glass">
+          <div class="slide-badge">Slide 50</div>
+          <h3>Day 1 Outcome</h3>
+          <ul><li>Architecture Mastered: Participants understand the layered K7 security.</li><li>Governance Established: The HSM SO and PSO roles are clearly separated.</li><li>Platform Ready: The appliance is networked, time-synced, and initialized for the next phase of client registration.</li></ul>
+        </article></div>
+    </section>
+
+<section class="assessment glass">
+<div>
+<div class="eyebrow">Knowledge Assessment</div>
+<h2>Test Your Luna HSM Knowledge</h2>
+<p>Complete the 25-question assessment covering partitions, cloning, PED keys, HA, FIPS policies, SKS, appliance commands and Luna administration.</p>
+</div>
+<a class="cta" href="luna_hsm_25_question_mcq.html">Start MCQ →</a>
+</section>
+</main>
+
+<footer>Pratyush Saxena | Luna HSM Training</footer>
+
+<script>
+function scrollToSection(id){
+  document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});
+}
+</script>
+</body>
+</html>
