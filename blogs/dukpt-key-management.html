@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="How Derived Unique Key Per Transaction reduces reliance on a single static transaction key."><title>DUKPT: The Key Concept That Changed How I Think About Payment Encryption | PlayWithPayments</title>
+<link rel="stylesheet" href="../templatemo-glossy-touch.css">
+<style>
+.article-wrap{max-width:900px;margin:auto;padding:24px}.article-card{padding:clamp(20px,5vw,48px);border-radius:18px;background:rgba(255,255,255,.14);border:1px solid #ffffff38;backdrop-filter:blur(16px);color:#fff;overflow-wrap:anywhere}
+.article-card h1{font-size:clamp(28px,5vw,42px);line-height:1.2;color:#fff;margin:14px 0}.article-card h2,.article-card h3,.article-card h4{color:#dbeafe;margin:28px 0 12px}
+.article-card p,.article-card li{color:#f8fafc;line-height:1.8}.article-card ul,.article-card ol{padding-left:24px;margin:12px 0}.article-card pre{overflow-x:auto;padding:16px;border-radius:10px;background:#0f172a;color:#e2e8f0}.article-card a{color:#bfdbfe}
+.article-meta{color:#dbeafe;font-size:14px}.article-category{display:inline-block;padding:6px 10px;border:1px solid #ffffff55;border-radius:20px;color:#dbeafe;font-size:12px}.back-link{display:inline-block;color:#fff;text-decoration:none;margin:0 0 20px;padding:10px 14px;border:1px solid #ffffff70;border-radius:8px}
+@media(max-width:600px){.article-wrap{padding:14px}}
+</style></head><body>
+<div class="bg-shapes"><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div></div>
+<main class="article-wrap"><a class="back-link" href="../blog.html">← All blogs</a><article class="article-card">
+<span class="article-category">HSM and Key Management</span><h1>DUKPT: The Key Concept That Changed How I Think About Payment Encryption</h1><p class="article-meta"><time datetime="2026-09-18">18 September 2026</time> · By Pratyush Saxena</p>
+<div class="article-content"><h1>DUKPT: The Key Concept That Changed How I Think About Payment Encryption</h1>
+<p>After years of working with HSMs, issuers, acquirers, card networks, and payment messaging, DUKPT remains one of the concepts that makes payment encryption easier to reason about.</p>
+<p>DUKPT stands for <strong>Derived Unique Key Per Transaction</strong>. Its central idea is straightforward: instead of reusing the same transaction key for many transactions, derive a different transaction key for each transaction.</p>
+<p>A simplified view is:</p>
+<p><strong>BDK (Base Derivation Key) → Initial key material → Transaction-specific keys</strong></p>
+<p>The BDK is the root secret and is typically protected inside an HSM on the host or acquiring side. The payment terminal has its own provisioned key material and state that allow it to derive transaction keys.</p>
+<p>The Key Serial Number (KSN) accompanies the encrypted PIN or data. The host uses the protected BDK and KSN to derive the corresponding transaction key. The transaction key itself does not need to travel with the transaction.</p>
+<p>A compromised transaction key has a different scope of impact from a static key reused across many transactions. DUKPT does not remove the need for sound key injection, HSM protection, monitoring, and key-management controls, but it helps limit transaction-key reuse.</p>
+<p>Classic payment environments commonly use TDES DUKPT, while AES DUKPT supports modern cryptographic approaches. Their mechanics differ, but the broader principle remains: protect the root key, derive keys systematically, and minimize key reuse.</p>
+<p>DUKPT is easier to understand when viewed not as an encryption algorithm, but as a <strong>key-management and derivation scheme</strong>.</p>
+<p><strong>Where are you seeing DUKPT used most today: PIN encryption, card-data encryption, P2PE, or another use case?</strong></p>
+<p><a href="https://www.linkedin.com/in/pratyush-saxena-83ba65101/">View my LinkedIn profile</a></p>
+</div><hr style="border:0;border-top:1px solid #ffffff40;margin:32px 0"><p>Explore more payment technology articles on <a href="../blog.html">PlayWithPayments</a>.</p>
+</article></main></body></html>

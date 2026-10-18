@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Why EMV uses two local GENERATE AC commands even though online authorization normally involves one issuer round trip."><title>Two GENERATE AC Commands, One Online Leg | PlayWithPayments</title>
+<link rel="stylesheet" href="../templatemo-glossy-touch.css">
+<style>
+.article-wrap{max-width:900px;margin:auto;padding:24px}.article-card{padding:clamp(20px,5vw,48px);border-radius:18px;background:rgba(255,255,255,.14);border:1px solid #ffffff38;backdrop-filter:blur(16px);color:#fff;overflow-wrap:anywhere}
+.article-card h1{font-size:clamp(28px,5vw,42px);line-height:1.2;color:#fff;margin:14px 0}.article-card h2,.article-card h3,.article-card h4{color:#dbeafe;margin:28px 0 12px}
+.article-card p,.article-card li{color:#f8fafc;line-height:1.8}.article-card ul,.article-card ol{padding-left:24px;margin:12px 0}.article-card pre{overflow-x:auto;padding:16px;border-radius:10px;background:#0f172a;color:#e2e8f0}.article-card a{color:#bfdbfe}
+.article-meta{color:#dbeafe;font-size:14px}.article-category{display:inline-block;padding:6px 10px;border:1px solid #ffffff55;border-radius:20px;color:#dbeafe;font-size:12px}.back-link{display:inline-block;color:#fff;text-decoration:none;margin:0 0 20px;padding:10px 14px;border:1px solid #ffffff70;border-radius:8px}
+@media(max-width:600px){.article-wrap{padding:14px}}
+</style></head><body>
+<div class="bg-shapes"><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div></div>
+<main class="article-wrap"><a class="back-link" href="../blog.html">← All blogs</a><article class="article-card">
+<span class="article-category">EMV</span><h1>Two GENERATE AC Commands, One Online Leg</h1><p class="article-meta"><time datetime="2026-10-11">11 October 2026</time> · By Pratyush Saxena</p>
+<div class="article-content"><h1>Two GENERATE AC Commands, One Online Leg</h1>
+<p>A common EMV question is: if the terminal sends two GENERATE AC commands, why does authorization still happen in one online leg?</p>
+<p>The key clarification is that GENERATE AC is a local interaction between the terminal and the chip card. It is not a command sent to the issuer.</p>
+<h2>1. First GENERATE AC: initiate the request</h2>
+<p>After performing its checks, the terminal sends the first GENERATE AC command to the card. If the card decides online authorization is required, it returns an <strong>ARQC</strong>, or Authorization Request Cryptogram.</p>
+<p>The terminal forwards the relevant transaction data and ARQC to the issuer through the payment network.</p>
+<h2>2. One online leg: issuer authorization</h2>
+<p>The issuer validates the ARQC, performs authorization and risk checks, and sends an authorization response. This is the online round trip to the issuer.</p>
+<h2>3. Second GENERATE AC: complete the card interaction</h2>
+<p>The terminal passes the issuer response and applicable issuer-authentication data back to the card in the second GENERATE AC command. The card evaluates the outcome and may return a <strong>TC</strong>, a Transaction Certificate, or an <strong>AAC</strong>, an Application Authentication Cryptogram indicating decline.</p>
+<p>So there are two card-terminal GENERATE AC exchanges, but normally only one online authorization round trip to the issuer. The first helps establish the online request. The second completes the card&#39;s transaction decision.</p>
+<p>This distinction is useful when diagnosing EMV traces. The terminal-card dialogue and terminal-issuer dialogue are separate parts of the transaction.</p>
+<p><strong>Have you seen a case where the issuer approved a valid ARQC, but the card returned an AAC after the second GENERATE AC?</strong></p>
+<p><a href="https://www.linkedin.com/in/pratyush-saxena-83ba65101/">View my LinkedIn profile</a></p>
+</div><hr style="border:0;border-top:1px solid #ffffff40;margin:32px 0"><p>Explore more payment technology articles on <a href="../blog.html">PlayWithPayments</a>.</p>
+</article></main></body></html>

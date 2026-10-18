@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="How TVR, IAC, TAC, and EMV Tag 9F27 influence terminal decisions during card transactions."><title>Terminal Action Analysis: Who Decides Online or Offline? | PlayWithPayments</title>
+<link rel="stylesheet" href="../templatemo-glossy-touch.css">
+<style>
+.article-wrap{max-width:900px;margin:auto;padding:24px}.article-card{padding:clamp(20px,5vw,48px);border-radius:18px;background:rgba(255,255,255,.14);border:1px solid #ffffff38;backdrop-filter:blur(16px);color:#fff;overflow-wrap:anywhere}
+.article-card h1{font-size:clamp(28px,5vw,42px);line-height:1.2;color:#fff;margin:14px 0}.article-card h2,.article-card h3,.article-card h4{color:#dbeafe;margin:28px 0 12px}
+.article-card p,.article-card li{color:#f8fafc;line-height:1.8}.article-card ul,.article-card ol{padding-left:24px;margin:12px 0}.article-card pre{overflow-x:auto;padding:16px;border-radius:10px;background:#0f172a;color:#e2e8f0}.article-card a{color:#bfdbfe}
+.article-meta{color:#dbeafe;font-size:14px}.article-category{display:inline-block;padding:6px 10px;border:1px solid #ffffff55;border-radius:20px;color:#dbeafe;font-size:12px}.back-link{display:inline-block;color:#fff;text-decoration:none;margin:0 0 20px;padding:10px 14px;border:1px solid #ffffff70;border-radius:8px}
+@media(max-width:600px){.article-wrap{padding:14px}}
+</style></head><body>
+<div class="bg-shapes"><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div></div>
+<main class="article-wrap"><a class="back-link" href="../blog.html">← All blogs</a><article class="article-card">
+<span class="article-category">EMV</span><h1>Terminal Action Analysis: Who Decides Online or Offline?</h1><p class="article-meta"><time datetime="2026-09-18">18 September 2026</time> · By Pratyush Saxena</p>
+<div class="article-content"><h1>Terminal Action Analysis: Who Decides Online or Offline?</h1>
+<p>When you tap a contactless card, one transaction may be approved offline while another is sent online for issuer authorization. It is tempting to assume the issuer makes that first decision. In EMV, the terminal plays an important role in deciding what action to request from the card.</p>
+<p>After risk-management checks and cardholder verification, the terminal builds the <strong>Terminal Verification Results (TVR)</strong>. The TVR is a five-byte data object recording the results of the terminal&#39;s checks.</p>
+<p>The terminal evaluates those results against two sets of rules:</p>
+<ul>
+<li><strong>Issuer Action Codes (IAC)</strong> stored on the card</li>
+<li><strong>Terminal Action Codes (TAC)</strong> configured for the terminal</li>
+</ul>
+<p>The simplified decision sequence is:</p>
+<ol>
+<li><strong>Denial check:</strong> if the TVR matches denial rules, the terminal requests an AAC and the transaction is declined offline.</li>
+<li><strong>Online check:</strong> if denial rules do not match and online rules do, the terminal requests an ARQC and sends the transaction to the issuer.</li>
+<li><strong>Default check:</strong> if the terminal cannot go online, default rules help determine whether to decline or approve offline.</li>
+</ol>
+<p>The card&#39;s cryptogram outcome is reflected in <strong>Tag 9F27</strong>, the Cryptogram Information Data (CID):</p>
+<ul>
+<li><strong>TC:</strong> Transaction Certificate, commonly associated with offline approval</li>
+<li><strong>ARQC:</strong> Authorization Request Cryptogram, requesting online authorization</li>
+<li><strong>AAC:</strong> Application Authentication Cryptogram, indicating decline</li>
+</ul>
+<p>When troubleshooting an EMV transaction, do not stop at the ISO 8583 response code. Inspect TVR, IAC, TAC, and Tag 9F27 together. They help explain the terminal&#39;s decision and the card&#39;s response.</p>
+<p><strong>How often has Tag 9F27 helped you identify an EMV root cause faster than looking at the response code alone?</strong></p>
+<p><a href="https://www.linkedin.com/in/pratyush-saxena-83ba65101/">View my LinkedIn profile</a></p>
+</div><hr style="border:0;border-top:1px solid #ffffff40;margin:32px 0"><p>Explore more payment technology articles on <a href="../blog.html">PlayWithPayments</a>.</p>
+</article></main></body></html>

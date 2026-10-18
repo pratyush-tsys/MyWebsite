@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Why M-of-N quorum, dual control, and key ceremony procedures are as important as cryptographic strength."><title>HSM Security Is Built on Trust, Not Just Technology | PlayWithPayments</title>
+<link rel="stylesheet" href="../templatemo-glossy-touch.css">
+<style>
+.article-wrap{max-width:900px;margin:auto;padding:24px}.article-card{padding:clamp(20px,5vw,48px);border-radius:18px;background:rgba(255,255,255,.14);border:1px solid #ffffff38;backdrop-filter:blur(16px);color:#fff;overflow-wrap:anywhere}
+.article-card h1{font-size:clamp(28px,5vw,42px);line-height:1.2;color:#fff;margin:14px 0}.article-card h2,.article-card h3,.article-card h4{color:#dbeafe;margin:28px 0 12px}
+.article-card p,.article-card li{color:#f8fafc;line-height:1.8}.article-card ul,.article-card ol{padding-left:24px;margin:12px 0}.article-card pre{overflow-x:auto;padding:16px;border-radius:10px;background:#0f172a;color:#e2e8f0}.article-card a{color:#bfdbfe}
+.article-meta{color:#dbeafe;font-size:14px}.article-category{display:inline-block;padding:6px 10px;border:1px solid #ffffff55;border-radius:20px;color:#dbeafe;font-size:12px}.back-link{display:inline-block;color:#fff;text-decoration:none;margin:0 0 20px;padding:10px 14px;border:1px solid #ffffff70;border-radius:8px}
+@media(max-width:600px){.article-wrap{padding:14px}}
+</style></head><body>
+<div class="bg-shapes"><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div></div>
+<main class="article-wrap"><a class="back-link" href="../blog.html">← All blogs</a><article class="article-card">
+<span class="article-category">HSM and Key Management</span><h1>HSM Security Is Built on Trust, Not Just Technology</h1><p class="article-meta"><time datetime="2026-09-18">18 September 2026</time> · By Pratyush Saxena</p>
+<div class="article-content"><h1>HSM Security Is Built on Trust, Not Just Technology</h1>
+<p>Early in my payments career, I visited a bank preparing for a ZCMK key-generation ceremony. I asked a Security Officer whether the keys had already been generated. The answer was simple: not yet, because the required quorum of Security Officers had to be present.</p>
+<p>That conversation changed how I thought about HSM security. I had been focused on strong encryption, secure hardware, and complex cryptographic algorithms. But secure key management also depends on people, process, and governance.</p>
+<h2>What is M-of-N quorum?</h2>
+<p>An organization defines that at least <strong>M out of N</strong> authorized Security Officers must participate before a critical operation can proceed.</p>
+<p>For example, in a 3-of-5 arrangement:</p>
+<ul>
+<li>Five officers hold their own authentication shares or credentials.</li>
+<li>Any three authorized officers can satisfy the quorum.</li>
+<li>Two officers alone cannot complete the protected operation.</li>
+</ul>
+<p>The exact mechanism varies by HSM and configuration, but the principle is that no single person should have unilateral control over critical key-management operations.</p>
+<p>A well-designed process can reduce insider risk, make a single lost share insufficient by itself, and allow operations to continue when some officers are unavailable.</p>
+<p>This is more than a technical feature. It is a governance control. HSMs protect cryptographic material, while key ceremonies, dual control, quorum rules, audit trails, and clear responsibilities protect the process around that material.</p>
+<p>One lesson has stayed with me: the strongest security controls are not always cryptographic. Technology protects keys. The process protects trust.</p>
+<p><strong>What security principle from your early payments, HSM, or cybersecurity work has stayed with you?</strong></p>
+<p><a href="https://www.linkedin.com/posts/pratyush-saxena-83ba65101_payments-paymentsecurity-hsm-activity-7487901989826093056-ECjG">Read the original LinkedIn post</a></p>
+</div><hr style="border:0;border-top:1px solid #ffffff40;margin:32px 0"><p>Explore more payment technology articles on <a href="../blog.html">PlayWithPayments</a>.</p>
+</article></main></body></html>

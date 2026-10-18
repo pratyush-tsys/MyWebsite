@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A reminder to distinguish a product name from the cryptographic mechanism behind a one-time password."><title>RSA Authenticator Does Not Mean RSA Generates the OTP | PlayWithPayments</title>
+<link rel="stylesheet" href="../templatemo-glossy-touch.css">
+<style>
+.article-wrap{max-width:900px;margin:auto;padding:24px}.article-card{padding:clamp(20px,5vw,48px);border-radius:18px;background:rgba(255,255,255,.14);border:1px solid #ffffff38;backdrop-filter:blur(16px);color:#fff;overflow-wrap:anywhere}
+.article-card h1{font-size:clamp(28px,5vw,42px);line-height:1.2;color:#fff;margin:14px 0}.article-card h2,.article-card h3,.article-card h4{color:#dbeafe;margin:28px 0 12px}
+.article-card p,.article-card li{color:#f8fafc;line-height:1.8}.article-card ul,.article-card ol{padding-left:24px;margin:12px 0}.article-card pre{overflow-x:auto;padding:16px;border-radius:10px;background:#0f172a;color:#e2e8f0}.article-card a{color:#bfdbfe}
+.article-meta{color:#dbeafe;font-size:14px}.article-category{display:inline-block;padding:6px 10px;border:1px solid #ffffff55;border-radius:20px;color:#dbeafe;font-size:12px}.back-link{display:inline-block;color:#fff;text-decoration:none;margin:0 0 20px;padding:10px 14px;border:1px solid #ffffff70;border-radius:8px}
+@media(max-width:600px){.article-wrap{padding:14px}}
+</style></head><body>
+<div class="bg-shapes"><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div></div>
+<main class="article-wrap"><a class="back-link" href="../blog.html">← All blogs</a><article class="article-card">
+<span class="article-category">Cryptography</span><h1>RSA Authenticator Does Not Mean RSA Generates the OTP</h1><p class="article-meta"><time datetime="2026-09-18">18 September 2026</time> · By Pratyush Saxena</p>
+<div class="article-content"><h1>RSA Authenticator Does Not Mean RSA Generates the OTP</h1>
+<p>I once opened the RSA SecurID Authenticator app to enter a one-time password and wondered whether the RSA algorithm itself was generating that code. The product name makes that assumption easy to make.</p>
+<p>RSA is an asymmetric cryptographic algorithm. It is important in many security systems, but it is not the usual mechanism for generating a fresh short OTP every few seconds.</p>
+<p>Time-based one-time passwords (TOTP) are typically generated using a shared secret and a keyed-hash message authentication code (HMAC), combined with a time counter. The authenticator and verifier use the same underlying secret and time step to calculate a code. The verifier checks the submitted code against the expected value within its allowed time window.</p>
+<p>This approach is fast and practical for authenticators. It does not require performing an RSA public-key operation for every OTP.</p>
+<p>The distinction is:</p>
+<ul>
+<li><strong>RSA</strong> is an asymmetric cryptographic algorithm.</li>
+<li><strong>HMAC</strong> is a message-authentication construction based on a secret key and a hash function.</li>
+<li><strong>TOTP</strong> derives a time-based code from a shared secret and a moving time counter.</li>
+</ul>
+<p>The exact implementation depends on the product and configuration, so consult vendor documentation rather than inferring behavior from the name alone.</p>
+<p>Even after years of working with HSMs, card networks, and payment security, assumptions can sneak in. Staying curious is part of staying technically sharp.</p>
+<p><strong>Have you ever found that a product&#39;s name led you to the wrong assumption about the technology underneath?</strong></p>
+<p><a href="https://www.linkedin.com/in/pratyush-saxena-83ba65101/">View my LinkedIn profile</a></p>
+</div><hr style="border:0;border-top:1px solid #ffffff40;margin:32px 0"><p>Explore more payment technology articles on <a href="../blog.html">PlayWithPayments</a>.</p>
+</article></main></body></html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="How the ATM&#39;s local Financial Institution Table influences menus, routing, transaction permissions, and cryptographic preparation."><title>The ATM&#39;s Silent Brain: The FIT Table | PlayWithPayments</title>
+<link rel="stylesheet" href="../templatemo-glossy-touch.css">
+<style>
+.article-wrap{max-width:900px;margin:auto;padding:24px}.article-card{padding:clamp(20px,5vw,48px);border-radius:18px;background:rgba(255,255,255,.14);border:1px solid #ffffff38;backdrop-filter:blur(16px);color:#fff;overflow-wrap:anywhere}
+.article-card h1{font-size:clamp(28px,5vw,42px);line-height:1.2;color:#fff;margin:14px 0}.article-card h2,.article-card h3,.article-card h4{color:#dbeafe;margin:28px 0 12px}
+.article-card p,.article-card li{color:#f8fafc;line-height:1.8}.article-card ul,.article-card ol{padding-left:24px;margin:12px 0}.article-card pre{overflow-x:auto;padding:16px;border-radius:10px;background:#0f172a;color:#e2e8f0}.article-card a{color:#bfdbfe}
+.article-meta{color:#dbeafe;font-size:14px}.article-category{display:inline-block;padding:6px 10px;border:1px solid #ffffff55;border-radius:20px;color:#dbeafe;font-size:12px}.back-link{display:inline-block;color:#fff;text-decoration:none;margin:0 0 20px;padding:10px 14px;border:1px solid #ffffff70;border-radius:8px}
+@media(max-width:600px){.article-wrap{padding:14px}}
+</style></head><body>
+<div class="bg-shapes"><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div></div>
+<main class="article-wrap"><a class="back-link" href="../blog.html">← All blogs</a><article class="article-card">
+<span class="article-category">ATM and Card Payments</span><h1>The ATM&#39;s Silent Brain: The FIT Table</h1><p class="article-meta"><time datetime="2026-02-18">18 February 2026</time> · By Pratyush Saxena</p>
+<div class="article-content"><h1>The ATM&#39;s Silent Brain: The FIT Table</h1>
+<p>You insert a card into an ATM and the machine immediately shows the right language, transaction options, and cash-withdrawal flow. No issuer response has arrived yet. How does the ATM already know what to do?</p>
+<p>Part of the answer may live in the <strong>FIT Table</strong>, or Financial Institution Table. This configuration is loaded into the ATM and helps it make local decisions before a message is sent upstream.</p>
+<p>Depending on the ATM platform and implementation, FIT-related configuration can include:</p>
+<ul>
+<li>BIN or card-range information</li>
+<li>Network mapping for Visa, Mastercard, RuPay, or American Express</li>
+<li>On-us versus off-us handling</li>
+<li>Supported transaction types, such as cash withdrawal or balance inquiry</li>
+<li>Screen-flow and transaction options</li>
+<li>PIN-block or cryptographic-path configuration</li>
+</ul>
+<p>A simplified sequence looks like this:</p>
+<ol>
+<li>The ATM reads the card.</li>
+<li>It extracts the relevant card range.</li>
+<li>It looks up local configuration.</li>
+<li>It selects applicable screens, transaction options, routing context, and cryptographic preparation.</li>
+<li>The transaction proceeds to the appropriate payment-processing path when required.</li>
+</ol>
+<p>This explains why some ATM failures occur before an ISO 8583 message reaches the switch. Incorrect or stale configuration can cause the wrong screens to appear, a card to be routed incorrectly, or a transaction to fail before issuer authorization is involved.</p>
+<p>The FIT Table is not the entire ATM routing architecture, and exact fields vary by vendor and implementation. It is one important part of the local decision-making that makes the ATM experience feel instant.</p>
+<p><strong>Have you ever investigated an ATM failure that turned out to be a FIT Table or terminal-configuration issue?</strong></p>
+<p><a href="https://www.linkedin.com/posts/pratyush-saxena-83ba65101_payments-atm-cardpayments-activity-7410704721440698368-I1Po">Read the original LinkedIn post</a></p>
+</div><hr style="border:0;border-top:1px solid #ffffff40;margin:32px 0"><p>Explore more payment technology articles on <a href="../blog.html">PlayWithPayments</a>.</p>
+</article></main></body></html>
