@@ -57,7 +57,7 @@ function readLegacy() {
 }
 fs.mkdirSync(postsDir,{recursive:true});
 fs.mkdirSync(blogsDir,{recursive:true});
-const markdown = fs.readdirSync(postsDir).filter(f=>f.endsWith(".md")).map(parsePost);
+const markdown = fs.readdirSync(postsDir).filter(f => f.endsWith(".md") && !/^readme(?:\\.|$)/i.test(f)).map(parsePost);
 const legacy = readLegacy();
 const seen = new Set();
 const posts = markdown.concat(legacy).filter(post=>{
