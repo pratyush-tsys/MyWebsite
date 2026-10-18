@@ -1,0 +1,36 @@
+name: Blog publishing form
+description: Submit a new blog article.
+title: '[Blog] '
+labels:
+  - blog-submission
+body:
+  - type: input
+    id: title
+    attributes:
+      label: Blog title
+    validations:
+      required: true
+  - type: input
+    id: date
+    attributes:
+      label: Publication date, YYYY-MM-DD
+    validations:
+      required: false
+  - type: input
+    id: category
+    attributes:
+      label: Category
+    validations:
+      required: true
+  - type: input
+    id: description
+    attributes:
+      label: Short description
+    validations:
+      required: true
+  - type: textarea
+    id: content
+    attributes:
+      label: Full article in Markdown
+    validations:
+      required: true
