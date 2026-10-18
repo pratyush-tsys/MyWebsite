@@ -1,6 +1,6 @@
 ---
 title: "DIGIPIN: A Digital Address Grid with Payments-Style Thinking"
-date: "2026-10-18"
+date: "2026-10-17"
 description: "How India's 10-character DIGIPIN turns geography into a standardized, machine-readable location reference."
 category: "Digital Public Infrastructure"
 ---
