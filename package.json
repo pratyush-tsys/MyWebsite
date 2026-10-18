@@ -1,0 +1,12 @@
+{
+  "name": "playwithpayments-blog",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Builds blog pages and listing for MyWebsite",
+  "scripts": {
+    "build": "node scripts/build-blogs.js"
+  },
+  "dependencies": {
+    "marked": "^15.0.7"
+  }
+}
