@@ -58,12 +58,13 @@ function readLegacy() {
 fs.mkdirSync(postsDir,{recursive:true});
 fs.mkdirSync(blogsDir,{recursive:true});
 const markdown = fs.readdirSync(postsDir).filter(f=>f.endsWith(".md") && !/^readme/i.test(f)).map(parsePost);
-const legacy = readLegacy();
+const legacy = [];
 const seen = new Set();
 const posts = markdown.concat(legacy).filter(post=>{
   if(seen.has(post.slug)){console.error("Duplicate blog slug: "+post.slug);process.exitCode=1;return false;}
   seen.add(post.slug);return true;
 }).sort((a,b)=>b.date.localeCompare(a.date));
+for (const file of fs.readdirSync(blogsDir)) { if (file.endsWith(".html")) fs.unlinkSync(path.join(blogsDir,file)); }
 posts.forEach(post=>fs.writeFileSync(path.join(blogsDir,post.slug+".html"),renderPage(post,post.body),"utf8"));
 const categories = Array.from(new Set(posts.map(p=>p.category))).sort();
 const cards = posts.map(card).join("\n");
