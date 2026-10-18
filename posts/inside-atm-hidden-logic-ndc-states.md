@@ -5,7 +5,7 @@ slug: "inside-atm-hidden-logic-ndc-states"
 date: 2026-10-18
 category: "ATM and Card Payments"
 description: "Explore how states and state tables in APTRA Advance NDC control ATM transaction flows, from card reading and PIN entry to host communication and cash dispensing."
-
+---
 🏧 Inside the ATM: The Hidden Logic That Controls Every Transaction
 
 Imagine inserting your card into an ATM.
