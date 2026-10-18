@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Create a Blog | PlayWithPayments</title>
+  <style>
+    :root{color-scheme:dark;--bg:#0b1020;--panel:#151d33;--line:#34415e;--text:#f8fafc;--muted:#b8c4d9;--accent:#7dd3fc}
+    *{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,#0b1020,#172554);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+    main{width:min(1050px,100%);margin:auto;padding:24px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.top a{color:var(--accent)}
+    h1{line-height:1.2}p.help{color:var(--muted)}form,.preview{background:#151d33eF;border:1px solid var(--line);border-radius:16px;padding:22px;margin:18px 0}
+    .fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.field{display:flex;flex-direction:column;gap:6px}.wide{grid-column:1/-1}label{font-weight:650}
+    input,select,textarea{width:100%;padding:12px;border-radius:9px;border:1px solid #52617d;background:#0b1224;color:var(--text);font:inherit}textarea{min-height:280px;resize:vertical}
+    button{border:0;border-radius:9px;background:#38bdf8;color:#082f49;font-weight:750;padding:12px 18px;cursor:pointer;margin:8px 8px 0 0}button.secondary{background:#334155;color:white}button:disabled{opacity:.6;cursor:wait}
+    .status{white-space:pre-wrap;color:var(--muted);margin-top:12px}.error{color:#fca5a5}.success{color:#86efac}.preview-content{white-space:pre-wrap;overflow-wrap:anywhere}.preview h2{margin-bottom:4px}.meta{color:var(--muted);font-size:.9rem}
+    @media(max-width:650px){main{padding:14px}.fields{grid-template-columns:1fr}.wide{grid-column:auto}form,.preview{padding:16px}}
+  </style>
+</head>
+<body>
+<main>
+  <div class="top"><h1>✍️ Create a new blog</h1><a href="blog.html">← View all blogs</a></div>
+  <p class="help">Paste your writing, preview it, then publish. Your wording is kept as entered. This tool formats the text only and does not rewrite it.</p>
+  <form id="blogForm">
+    <div class="fields">
+      <div class="field"><label for="title">Post title *</label><input id="title" maxlength="140" required placeholder="Your blog title"></div>
+      <div class="field"><label for="category">Category *</label><select id="category" required><option>Payment Technology</option><option>ISO 8583 / ISO 20022</option><option>EMV</option><option>HSM and Key Management</option><option>Cryptography</option><option>Payment Security</option><option>Fraud Prevention</option><option>ATM and Card Payments</option><option>Digital Public Infrastructure</option><option>Fintech Architecture</option><option>Other</option></select></div>
+      <div class="field"><label for="date">Publication date *</label><input id="date" type="date" required></div>
+      <div class="field"><label for="description">Short description (optional)</label><input id="description" maxlength="200" placeholder="Leave blank to use the beginning of your text"></div>
+      <div class="field wide"><label for="body">Your original text *</label><textarea id="body" required maxlength="60000" placeholder="Paste your text here. Blank lines and Markdown headings/lists are supported."></textarea></div>
+      <div class="field wide"><label for="password">Publishing password *</label><input id="password" type="password" autocomplete="current-password" required placeholder="Set by the site administrator in Netlify"></div>
+    </div>
+    <button type="button" id="previewButton" class="secondary">Preview post</button>
+    <button type="submit" id="publishButton">Publish blog</button>
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+  </form>
+  <section class="preview" id="preview" hidden>
+    <p class="meta">PREVIEW</p><h2 id="previewTitle"></h2><p class="meta" id="previewMeta"></p><p id="previewDescription"></p><div id="previewBody" class="preview-content"></div>
+  </section>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const today=new Date();$('date').value=new Date(today.getTime()-today.getTimezoneOffset()*60000).toISOString().slice(0,10);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function safeMarkdown(source){
+  let html=esc(source);
+  html=html.replace(/\`\`\`([\s\S]*?)\`\`\`/g,'<pre><code>$1</code></pre>');
+  html=html.replace(/^### (.+)$/gm,'<h3>$1</h3>').replace(/^## (.+)$/gm,'<h2>$1</h2>').replace(/^# (.+)$/gm,'<h1>$1</h1>');
+  html=html.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/`([^`]+)`/g,'<code>$1</code>');
+  html=html.replace(/^(?:- .+(?:\n|$))+/gm,block=>'<ul>'+block.trim().split('\n').map(line=>'<li>'+line.replace(/^- /,'')+'</li>').join('')+'</ul>');
+  return html.split(/\n{2,}/).map(part=>/^<(h[1-6]|ul|pre|blockquote)/.test(part)?part:'<p>'+part.replace(/\n/g,'<br>')+'</p>').join('');
+}
+function showPreview(){
+  const title=$('title').value.trim(),body=$('body').value,category=$('category').value,date=$('date').value;
+  $('previewTitle').textContent=title||'Untitled post';
+  $('previewMeta').textContent=[category,date].filter(Boolean).join(' · ');
+  $('previewDescription').textContent=$('description').value.trim()||body.trim().slice(0,180);
+  $('previewBody').innerHTML=safeMarkdown(body);
+  $('preview').hidden=false;
+}
+$('previewButton').addEventListener('click',showPreview);
+$('blogForm').addEventListener('submit',async event=>{
+  event.preventDefault();showPreview();
+  const button=$('publishButton'),status=$('status');button.disabled=true;status.className='status';status.textContent='Publishing…';
+  try{
+    const response=await fetch('/.netlify/functions/publish-blog',{method:'POST',headers:{'Content-Type':'application/json','X-Publish-Password':$('password').value},body:JSON.stringify({title:$('title').value.trim(),category:$('category').value,date:$('date').value,description:$('description').value.trim(),body:$('body').value})});
+    const result=await response.json();
+    if(!response.ok)throw new Error(result.error||'Could not publish the post.');
+    status.className='status success';status.textContent='Published to GitHub! The website will update after the build and deployment finish.\n'+result.message;
+    $('password').value='';
+  }catch(error){status.className='status error';status.textContent=error.message||'Publishing failed. Please try again.'}
+  finally{button.disabled=false}
+});
+</script>
+</body>
+</html>
