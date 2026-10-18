@@ -6,6 +6,7 @@ date: 2026-10-18
 category: "ATM and Card Payments"
 description: "Explore how states and state tables in APTRA Advance NDC control ATM transaction flows, from card reading and PIN entry to host communication and cash dispensing."
 ---
+
 🏧 Inside the ATM: The Hidden Logic That Controls Every Transaction
 
 Imagine inserting your card into an ATM.
@@ -23,7 +24,9 @@ But behind the screen, something interesting is happening.
 
 The ATM is moving through a sequence of states.
 
+
 Welcome to Part 1 of my NDC Enterprise Protocol Series, where we explore the internal workings of NCR Direct Connect, a proprietary message-based protocol used for communication between NCR ATMs and their host or switch systems.
+
 
 Let's start with one of the fundamental concepts in APTRA Advance NDC: STATES.
 
@@ -100,9 +103,11 @@ Understanding the state table is therefore essential when troubleshooting ATM tr
 
 Because before investigating a switch timeout or blaming the host, you need to understand what the ATM was configured to do in the first place.
 
+
 🚀 What's Next in This Series?
 
 We'll explore more NDC Enterprise concepts, including state transitions, message flows, screen configuration, Function Display Keys, and ATM-to-host communication.
+
 
 💬 Let's discuss:
 
