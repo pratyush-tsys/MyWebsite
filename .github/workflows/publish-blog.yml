@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   publish:
-    if: contains(github.event.issue.labels.*.name, 'blog-submission') && github.event.issue.state == 'open'
+    if: startsWith(github.event.issue.title, '[Blog]') && github.event.issue.state == 'open'
     runs-on: ubuntu-latest
     steps:
       - name: Allow repository owner only
