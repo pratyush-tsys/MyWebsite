@@ -20,10 +20,12 @@ export default async (request) => {
   const token = process.env.GITHUB_TOKEN;
   if (!expectedPassword || !token) return json(503, { error: "Publishing is not configured yet. The site owner must configure the Netlify function secrets." });
   const providedPassword = request.headers.get("x-publish-password") || "";
-  if (providedPassword.length !== expectedPassword.length ||
-      !crypto.timingSafeEqual(new TextEncoder().encode(providedPassword), new TextEncoder().encode(expectedPassword))) {
-    return json(401, { error: "Incorrect publishing password." });
+  let mismatch = providedPassword.length ^ expectedPassword.length;
+  const maxLength = Math.max(providedPassword.length, expectedPassword.length);
+  for (let i = 0; i < maxLength; i++) {
+    mismatch |= (providedPassword.charCodeAt(i) || 0) ^ (expectedPassword.charCodeAt(i) || 0);
   }
+  if (mismatch !== 0) return json(401, { error: "Incorrect publishing password." });
 
   let input;
   try { input = await request.json(); } catch { return json(400, { error: "Please submit valid form data." }); }
