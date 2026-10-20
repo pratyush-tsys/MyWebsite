@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Explore how APTRA Advance NDC States A, B, C, and D manage card reading, PIN entry, envelope dispensing, and operation code buffers."><title>Inside the ATM: What Happens After You Insert Your Card? NDC States A, B, C &amp; D, Part 2 | PlayWithPayments</title>
+<link rel="stylesheet" href="../templatemo-glossy-touch.css">
+<style>
+.article-wrap{max-width:900px;margin:auto;padding:24px}.article-card{padding:clamp(20px,5vw,48px);border-radius:18px;background:rgba(255,255,255,.14);border:1px solid #ffffff38;backdrop-filter:blur(16px);color:#fff;overflow-wrap:anywhere}
+.article-card h1{font-size:clamp(28px,5vw,42px);line-height:1.2;color:#fff;margin:14px 0}.article-card h2,.article-card h3,.article-card h4{color:#dbeafe;margin:28px 0 12px}
+.article-card p,.article-card li{color:#f8fafc;line-height:1.8}.article-card ul,.article-card ol{padding-left:24px;margin:12px 0}.article-card pre{overflow-x:auto;padding:16px;border-radius:10px;background:#0f172a;color:#e2e8f0}.article-card a{color:#bfdbfe}
+.article-meta{color:#dbeafe;font-size:14px}.article-category{display:inline-block;padding:6px 10px;border:1px solid #ffffff55;border-radius:20px;color:#dbeafe;font-size:12px}.back-link{display:inline-block;color:#fff;text-decoration:none;margin:0 0 20px;padding:10px 14px;border:1px solid #ffffff70;border-radius:8px}
+@media(max-width:600px){.article-wrap{padding:14px}}
+</style></head><body>
+<div class="bg-shapes"><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div></div>
+<main class="article-wrap"><a class="back-link" href="../blog.html">← All blogs</a><article class="article-card">
+<span class="article-category">ATM</span><h1>Inside the ATM: What Happens After You Insert Your Card? NDC States A, B, C &amp; D, Part 2</h1><p class="article-meta"><time datetime="2026-10-20">20 October 2026</time> · By Pratyush Saxena</p>
+<div class="article-content"><h1>🏧 Inside the ATM: What Happens After You Insert Your Card? | NDC States A, B, C &amp; D | Part 2</h1>
+<p>You insert your card.<br>You enter your PIN.<br>You select Cash Withdrawal.</p>
+<p>Within seconds, the ATM moves towards processing your request.</p>
+<p>But have you ever wondered what happens inside the ATM before it even sends a transaction request to the host?</p>
+<p>Welcome to the world of <strong>APTRA Advance NDC</strong>.</p>
+<p>In Part 1, we explored the hidden logic behind ATM NDC states.</p>
+<p>Today, let&#39;s look at four important states that help prepare the ATM for transaction processing.</p>
+<h2>🔹 STATE A: Card Read State</h2>
+<p>Everything starts here.</p>
+<p>The ATM reads the card&#39;s magnetic stripe or chip data and initializes the relevant transaction buffers.</p>
+<p>But there is more to it.</p>
+<ul>
+<li>Which card data should the ATM read?</li>
+<li>What happens if the card cannot be read?</li>
+<li>What if the card&#39;s institution does not match any configured Financial Institution Table entry?</li>
+<li>Should the ATM eject the card immediately or retain it until the host responds?</li>
+</ul>
+<p>State A handles these decisions through parameters such as Read Conditions, Good Read Next State, No FIT Match Next State, and Card Return Flag.</p>
+<p><strong>The key insight:</strong> A card read is not simply a hardware operation. It is also a decision point in the ATM&#39;s transaction flow.</p>
+<h2>🔹 STATE B: PIN Entry State</h2>
+<p>The card has been read. Now the ATM needs to establish that the cardholder can authenticate.</p>
+<p>Enter State B.</p>
+<p>The ATM prompts the customer to enter their PIN.</p>
+<p>Depending on the terminal configuration, PIN verification may happen locally or remotely.</p>
+<p>In a typical online PIN flow:</p>
+<ul>
+<li>The PIN is captured through the secure Encryptor Keyboard.</li>
+<li>The PIN is encrypted and formatted according to the configured process.</li>
+<li>The resulting protected PIN data is made available for transaction processing.</li>
+<li>The ATM follows the configured state transition to continue the transaction.</li>
+</ul>
+<p>What happens if the customer presses Cancel?</p>
+<p>What if the PIN entry times out?</p>
+<p>What if the customer exceeds the permitted number of attempts?</p>
+<p>These are not random exceptions. They are explicitly handled through state-transition parameters.</p>
+<p><strong>The key insight:</strong> PIN entry is both a security boundary and a transaction-control decision.</p>
+<h2>🔹 STATE C: Envelope Dispenser State</h2>
+<p>This state reveals something interesting about NDC.</p>
+<p>Not every state performs an action on every ATM.</p>
+<p>State C manages envelope presentation for terminals configured with an envelope dispenser.</p>
+<p>If the terminal does not have this hardware, the state can proceed without performing the envelope-dispensing action.</p>
+<p>And what happens if the customer never collects the envelope?</p>
+<p>The configured transaction flow can take the ATM to Close State J, where an uncollected envelope is retracted.</p>
+<p><strong>The key insight:</strong> NDC supports different terminal capabilities through configurable transaction flows. The same state can behave differently depending on the hardware available.</p>
+<h2>🔹 STATE D: Pre-Set Operation Code Buffer</h2>
+<p>Now we move from cardholder interaction to transaction preparation.</p>
+<p>State D manages the Operation Code buffer, an 8-byte buffer used to hold transaction-selection information.</p>
+<p>It can clear selected positions or pre-set them with configured function-key characters.</p>
+<p>Why does this matter?</p>
+<p>Because the ATM needs to maintain the correct transaction context as the customer moves through different screens and selections.</p>
+<p>State D uses parameters such as Clear Mask and A, B, C, D Pre-Set Masks. Extension State Z supports the relevant F, G, H, and I pre-set masks.</p>
+<p><strong>The key insight:</strong> Buffer management is an important part of controlling the transaction path. Incorrect configuration can affect how the ATM interprets transaction selections.</p>
+<hr>
+<h2>🧠 THE BIGGER PICTURE</h2>
+<p>Consider what these four states accomplish:</p>
+<ul>
+<li>✅ State A reads the card and determines the next path.</li>
+<li>✅ State B manages PIN entry and authentication-related branching.</li>
+<li>✅ State C handles envelope presentation where supported.</li>
+<li>✅ State D prepares the operation code buffer for the next stage.</li>
+</ul>
+<p>These states demonstrate an important principle of ATM engineering.</p>
+<p><strong>An ATM transaction is not a single request. It is a sequence of controlled state transitions, buffer operations, hardware interactions, and exception-handling decisions.</strong></p>
+<p>Understanding this logic helps when troubleshooting unexpected screen flows, card-retention issues, PIN-entry failures, and transaction-selection problems.</p>
+<p>And remember, the exact behavior depends on the NDC implementation, terminal capabilities, and configured state tables.</p>
+<h2>💬 Let&#39;s discuss</h2>
+<p>If you were troubleshooting an ATM that reads the card successfully but follows the wrong transaction path, where would you start investigating?</p>
+<p>Would you check the state-transition configuration, the FIT parameters, the Operation Code buffer, or the host communication flow?</p>
+<p>Share your approach in the comments. I&#39;d love to hear from fellow ATM and payments professionals.</p>
+<p>#ATM #NDC #APTRA #ATMTechnology #ATMSoftware #ATMEngineering #Payments #PaymentSystems #BankingTechnology #ISO8583 #PaymentSwitch #ATMTransactions #CashWithdrawal #PINSecurity #HSM #FinTech #Banking #PaymentProcessing #CoreBanking #FinancialTechnology #ATMOperations #PaymentInfrastructure #CyberSecurity #SoftwareEngineering #DigitalBanking #PaymentProfessionals</p>
+</div><hr style="border:0;border-top:1px solid #ffffff40;margin:32px 0"><p>Explore more payment technology articles on <a href="../blog.html">PlayWithPayments</a>.</p>
+</article></main></body></html>
