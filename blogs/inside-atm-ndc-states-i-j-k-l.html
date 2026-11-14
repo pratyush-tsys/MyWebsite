@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Explore how APTRA Advance NDC States I, J, K, and L manage host communication, transaction closure, FIT routing, and magnetic stripe writing."><title>Inside the ATM: What Happens After the ATM Sends Your Transaction to the Host? | APTRA Advance NDC, Part 4 | PlayWithPayments</title>
+<link rel="stylesheet" href="../templatemo-glossy-touch.css">
+<style>
+.article-wrap{max-width:900px;margin:auto;padding:24px}.article-card{padding:clamp(20px,5vw,48px);border-radius:18px;background:rgba(255,255,255,.14);border:1px solid #ffffff38;backdrop-filter:blur(16px);color:#fff;overflow-wrap:anywhere}
+.article-card h1{font-size:clamp(28px,5vw,42px);line-height:1.2;color:#fff;margin:14px 0}.article-card h2,.article-card h3,.article-card h4{color:#dbeafe;margin:28px 0 12px}
+.article-card p,.article-card li{color:#f8fafc;line-height:1.8}.article-card ul,.article-card ol{padding-left:24px;margin:12px 0}.article-card pre{overflow-x:auto;padding:16px;border-radius:10px;background:#0f172a;color:#e2e8f0}.article-card a{color:#bfdbfe}
+.article-meta{color:#dbeafe;font-size:14px}.article-category{display:inline-block;padding:6px 10px;border:1px solid #ffffff55;border-radius:20px;color:#dbeafe;font-size:12px}.back-link{display:inline-block;color:#fff;text-decoration:none;margin:0 0 20px;padding:10px 14px;border:1px solid #ffffff70;border-radius:8px}
+@media(max-width:600px){.article-wrap{padding:14px}}
+</style></head><body>
+<div class="bg-shapes"><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div></div>
+<main class="article-wrap"><a class="back-link" href="../blog.html">← All blogs</a><article class="article-card">
+<span class="article-category">ATM</span><h1>Inside the ATM: What Happens After the ATM Sends Your Transaction to the Host? | APTRA Advance NDC, Part 4</h1><p class="article-meta"><time datetime="2026-11-14">14 November 2026</time> · By Pratyush Saxena</p>
+<div class="article-content"><h1>🏧 INSIDE THE ATM: What Happens After the ATM Sends Your Transaction to the Host? | APTRA Advance NDC, Part 4</h1>
+<p>You insert your card, enter your PIN, select a transaction, and enter the amount.</p>
+<p>But what happens when the ATM finally communicates with the host?</p>
+<p>How does it send transaction data, process the host response, close the customer session, route transactions based on card institution, and even write updated data back to the magnetic stripe?</p>
+<p>Welcome to <strong>Part 4 of the APTRA Advance NDC series.</strong></p>
+<p>In Part 1, we explored the fundamentals of ATM NDC.</p>
+<p>In Part 2, we covered States A, B, C, and D.</p>
+<p>In Part 3, we explored States E, F, G, and H.</p>
+<p>Now, let&#39;s understand <strong>States I, J, K, and L</strong>, which control host communication, transaction termination, card-based routing, and magnetic stripe writing.</p>
+<h2>🔹 STATE I: Transaction Request State</h2>
+<p>This is where the ATM communicates with Central, the host.</p>
+<p>State I compiles transaction data gathered from previous states, sends the Transaction Request message, and waits for Central&#39;s Transaction Reply command.</p>
+<p><strong>Key technical points:</strong></p>
+<ul>
+<li>Displays a designated waiting screen, typically &quot;Please Wait&quot;.</li>
+<li>Sends Track 1, Track 2, and Track 3 data based on configured parameters.</li>
+<li>Transmits the 8-byte Operation Code Buffer.</li>
+<li>Sends the transaction amount.</li>
+<li>Transmits encrypted PIN data through Buffer A for remote verification.</li>
+<li>Can transmit additional customer inputs through General Purpose Buffers B and C.</li>
+<li>Extension State Z can include additional user-defined or device-specific data.</li>
+<li>Central Response Time-Out determines the next state if the host does not respond before Timer 03 expires.</li>
+</ul>
+<h2>🔹 STATE J: Close State</h2>
+<p>Every transaction needs a proper closure.</p>
+<p>State J safely terminates the cardholder session and manages card, cash, receipt, and statement disposition.</p>
+<p><strong>Key technical points:</strong></p>
+<ul>
+<li>Displays the appropriate receipt-delivered or no-receipt screen.</li>
+<li>Handles card retention when instructed by Central or when the cardholder leaves the card behind.</li>
+<li>Displays statement-related information when a statement is delivered.</li>
+<li>Clears document data, CPM data, and BNA cash deposit data.</li>
+<li>Extension State Z handles CPM cheque recovery and BNA escrow note disposition.</li>
+</ul>
+<p>The displayed screen depends on the transaction outcome and the card or receipt disposition.</p>
+<h2>🔹 STATE K: FIT Switch State</h2>
+<p>How does an ATM decide which transaction path to follow based on the card&#39;s institution ID?</p>
+<p>State K handles this routing.</p>
+<p><strong>Key technical points:</strong></p>
+<ul>
+<li>During card reading in State A or T, the card&#39;s Financial Institution ID (FIID) is matched against configured Financial Institution Tables (FITs).</li>
+<li>The matching FIT entry contains an Indirect Next State Index (PSTDX).</li>
+<li>State K maps indices 0 through 7 to configured Next State Numbers.</li>
+</ul>
+<p><strong>Interesting detail:</strong></p>
+<p>The expanded FIT Switch State (<code>_</code>) uses Extension State Z and supports up to 15 target state exits, with indices 0 through 14.</p>
+<p>This supports more complex card-type routing.</p>
+<h2>🔹 STATE L: Card Write State</h2>
+<p>Here is another interesting capability.</p>
+<p>State L writes updated track data from the terminal&#39;s track buffers back onto the card&#39;s magnetic stripe.</p>
+<p><strong>Key technical points:</strong></p>
+<ul>
+<li>The card must remain inside the reader.</li>
+<li>The terminal must support a track-writing card reader module.</li>
+<li>Valid track data must exist in the relevant buffers.</li>
+<li>Tracks are written sequentially: Track 1 → Track 2 → Track 3.</li>
+<li>If a track write fails or contains invalid data, the operation aborts immediately.</li>
+</ul>
+<p>State L has three possible exits:</p>
+<ol>
+<li><strong>Good Write:</strong> Track writing completes successfully.</li>
+<li><strong>Bad Write:</strong> A track write attempt fails.</li>
+<li><strong>No Write Attempted:</strong> Buffers are empty, data is invalid, or sentinels are missing or too long.</li>
+</ol>
+<h2>💡 THE BIGGER PICTURE</h2>
+<p>States I, J, K, and L demonstrate how APTRA Advance NDC manages the critical stages of ATM transaction processing.</p>
+<p>From compiling transaction data and communicating with the host to closing sessions, routing transactions through FIT configurations, and updating magnetic stripe data, these states play an important role in the ATM transaction lifecycle.</p>
+<p>Understanding these states is essential for anyone working with ATM software, transaction processing, and banking infrastructure.</p>
+<h2>💬 LET&#39;S DISCUSS</h2>
+<p>When an ATM successfully reads a card and captures the transaction details, but the transaction does not reach the expected host processing path, where would you start investigating?</p>
+<p><strong>State I host request configuration, State K FIT routing, or the transaction data and buffer selection?</strong></p>
+<p>Share your experience in the comments. Let&#39;s discuss!</p>
+<p>#ATM #ATMTechnology #ATMEngineering #NDC #APTRA #APTRAAdvance #ATMSoftware #ATMDevelopment #BankingTechnology #Payments #PaymentProcessing #PaymentSwitch #ISO8583 #ISO20022 #HSM #CardPayments #CardIssuing #CardAcquiring #FinancialInstitution #FIT #HostCommunication #TransactionProcessing #MagneticStripe #CardReader #BankingInfrastructure #CoreBanking #DigitalBanking #FinTech #FinancialTechnology #PaymentSystems #SoftwareEngineering #TechnicalDeepDive</p>
+</div><hr style="border:0;border-top:1px solid #ffffff40;margin:32px 0"><p>Explore more payment technology articles on <a href="../blog.html">PlayWithPayments</a>.</p>
+</article></main></body></html>
