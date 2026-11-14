@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Explore how APTRA Advance NDC States E, F, G, and H manage menu selections, amount entry, amount validation, and customer information."><title>Inside the ATM: What Happens When You Select a Transaction? | APTRA Advance NDC, Part 3 | PlayWithPayments</title>
+<link rel="stylesheet" href="../templatemo-glossy-touch.css">
+<style>
+.article-wrap{max-width:900px;margin:auto;padding:24px}.article-card{padding:clamp(20px,5vw,48px);border-radius:18px;background:rgba(255,255,255,.14);border:1px solid #ffffff38;backdrop-filter:blur(16px);color:#fff;overflow-wrap:anywhere}
+.article-card h1{font-size:clamp(28px,5vw,42px);line-height:1.2;color:#fff;margin:14px 0}.article-card h2,.article-card h3,.article-card h4{color:#dbeafe;margin:28px 0 12px}
+.article-card p,.article-card li{color:#f8fafc;line-height:1.8}.article-card ul,.article-card ol{padding-left:24px;margin:12px 0}.article-card pre{overflow-x:auto;padding:16px;border-radius:10px;background:#0f172a;color:#e2e8f0}.article-card a{color:#bfdbfe}
+.article-meta{color:#dbeafe;font-size:14px}.article-category{display:inline-block;padding:6px 10px;border:1px solid #ffffff55;border-radius:20px;color:#dbeafe;font-size:12px}.back-link{display:inline-block;color:#fff;text-decoration:none;margin:0 0 20px;padding:10px 14px;border:1px solid #ffffff70;border-radius:8px}
+@media(max-width:600px){.article-wrap{padding:14px}}
+</style></head><body>
+<div class="bg-shapes"><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div><div class="shape"></div></div>
+<main class="article-wrap"><a class="back-link" href="../blog.html">← All blogs</a><article class="article-card">
+<span class="article-category">ATM</span><h1>Inside the ATM: What Happens When You Select a Transaction? | APTRA Advance NDC, Part 3</h1><p class="article-meta"><time datetime="2026-11-14">14 November 2026</time> · By Pratyush Saxena</p>
+<div class="article-content"><h1>🏧 INSIDE THE ATM: What Happens When You Select a Transaction? | APTRA Advance NDC, Part 3</h1>
+<p>You insert your card, enter your PIN, and select Cash Withdrawal.</p>
+<p>But have you ever wondered how the ATM processes your menu selection, captures the withdrawal amount, validates it, and collects additional customer information?</p>
+<p>Welcome to another deep dive into <strong>APTRA Advance NDC</strong>.</p>
+<p>In Part 1, we explored the fundamentals of ATM NDC.</p>
+<p>In Part 2, we covered States A, B, C, and D, including card reading, PIN entry, envelope dispensing, and operation code buffer management.</p>
+<p>Now, let&#39;s explore <strong>States E, F, G, and H</strong>, where customer interaction drives the transaction flow.</p>
+<h2>🔹 STATE E: Four FDK Selection Function</h2>
+<p>This state handles customer menu selections through the four Function Display Keys (FDKs).</p>
+<p>Think of selecting:</p>
+<ul>
+<li>Savings or Current Account.</li>
+<li>Cash Withdrawal or Balance Enquiry.</li>
+<li>Different transaction options.</li>
+</ul>
+<p>The selected keycode gets stored in a specific byte of the 8-byte Operation Code Buffer.</p>
+<p><strong>Interesting detail:</strong></p>
+<p>Native Mode Option Digit 7a can enable left-side FDKs, allowing keys I, H, G, and F to perform equivalent functions.</p>
+<p>Touchscreen FDK emulation is also supported.</p>
+<h2>🔹 STATE F: Amount Entry</h2>
+<p>This is where the customer enters the transaction amount.</p>
+<p>For example, during a cash withdrawal, the ATM captures the amount through the numeric keypad and stores it in the Amount Buffer.</p>
+<p><strong>Key technical points:</strong></p>
+<ul>
+<li>Default Amount Buffer length is 8 digits.</li>
+<li>It can be configured for 12 digits.</li>
+<li>Amount Display Screen controls cursor position and currency formatting.</li>
+<li>Enter behaves like FDK A or I.</li>
+<li>Clear resets the entered amount.</li>
+<li>Timeout and Cancel can trigger separate next states.</li>
+</ul>
+<h2>🔹 STATE G: Amount Check</h2>
+<p>Here comes an interesting piece of transaction logic.</p>
+<p>State G checks whether the entered amount represents a whole currency unit or includes fractional units.</p>
+<p>For example:</p>
+<ul>
+<li>100.00, Whole currency unit.</li>
+<li>100.50, Non-whole currency unit.</li>
+</ul>
+<p>Based on the result, NDC routes the transaction to different next states.</p>
+<p>It can check the Amount Buffer or General Purpose Buffer B or C.</p>
+<p>This becomes particularly relevant when handling currencies with fractional denominations.</p>
+<h2>🔹 STATE H: Information Entry</h2>
+<p>State H handles generic numeric data entered by the customer.</p>
+<p>Examples include:</p>
+<ul>
+<li>Account numbers.</li>
+<li>Additional verification information.</li>
+<li>Other numeric inputs required by the transaction flow.</li>
+</ul>
+<p>Here is where buffer management and data masking become important.</p>
+<p><strong>Key technical points:</strong></p>
+<ul>
+<li>General Purpose Buffer B and C can store up to 32 bytes.</li>
+<li>Configuration determines which buffer stores the input.</li>
+<li>Data can appear as actual digits or masked characters (*).</li>
+<li>Enter behaves like FDK A or I.</li>
+<li>Clear resets the buffer and screen echo.</li>
+</ul>
+<h2>💡 The Bigger Picture</h2>
+<p>States E, F, G, and H demonstrate how NDC manages customer interaction and transaction decisions.</p>
+<p>From selecting an account to entering an amount, validating currency values, and collecting additional information, each state controls a specific part of the ATM transaction journey.</p>
+<p>For ATM developers, switch engineers, payment architects, and banking technology professionals, understanding these transitions is essential for troubleshooting and designing reliable ATM transaction flows.</p>
+<p><strong>The interesting part is how these states connect with the host transaction processing layer, where the collected data eventually contributes to transaction message construction and processing.</strong></p>
+<p>Follow the ATM NDC series for more technical deep dives.</p>
+<h2>💬 Let&#39;s Discuss</h2>
+<p>When an ATM captures the correct withdrawal amount, but the transaction follows an unexpected path, where would you start investigating?</p>
+<p>Would you check the Amount Buffer, State G configuration, Operation Code Buffer, or the next-state routing logic?</p>
+<p>Share your experience in the comments. Let&#39;s discuss!</p>
+<p>#ATM #ATMTechnology #ATMEngineering #NDC #APTRA #APTRAAdvance #NCR #WincorNixdorf #BankingTechnology #Payments #PaymentProcessing #PaymentSwitch #ISO8583 #ISO20022 #HSM #CardPayments #ATMSoftware #ATMDevelopment #CoreBanking #DigitalBanking #FinTech #FinancialTechnology #PaymentSystems #TransactionProcessing #BankingInfrastructure #PaymentInnovation #SoftwareEngineering #TechnicalDeepDive</p>
+</div><hr style="border:0;border-top:1px solid #ffffff40;margin:32px 0"><p>Explore more payment technology articles on <a href="../blog.html">PlayWithPayments</a>.</p>
+</article></main></body></html>
