@@ -1,6 +1,6 @@
 ---
 title: "Inside the ATM: What Happens When You Select a Transaction? | APTRA Advance NDC, Part 3"
-date: "2026-11-14"
+date: "2026-10-22"
 description: "Explore how APTRA Advance NDC States E, F, G, and H manage menu selections, amount entry, amount validation, and customer information."
 category: "ATM"
 slug: "inside-atm-ndc-states-e-f-g-h"
