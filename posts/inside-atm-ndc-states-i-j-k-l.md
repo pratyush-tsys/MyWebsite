@@ -1,6 +1,6 @@
 ---
 title: "Inside the ATM: What Happens After the ATM Sends Your Transaction to the Host? | APTRA Advance NDC, Part 4"
-date: "2026-11-14"
+date: "2026-10-24"
 description: "Explore how APTRA Advance NDC States I, J, K, and L manage host communication, transaction closure, FIT routing, and magnetic stripe writing."
 category: "ATM"
 slug: "inside-atm-ndc-states-i-j-k-l"
